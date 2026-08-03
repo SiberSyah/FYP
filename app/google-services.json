@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "391415133863",
+    "project_id": "encikaircond",
+    "storage_bucket": "encikaircond.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391415133863:android:7acf67d7f31cc82be04d82",
+        "android_client_info": {
+          "package_name": "com.dct3194.projekakhir"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZCJeIsQVl5BwbjzLhGL3GIDkKsddlIko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
