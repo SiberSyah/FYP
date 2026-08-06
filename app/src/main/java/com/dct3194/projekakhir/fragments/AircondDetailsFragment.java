@@ -31,7 +31,10 @@ public class AircondDetailsFragment extends Fragment {
     // 2. Horsepower Options
     private TextView btn1HP, btn15HP, btn2HP;
 
-    // 3. Package Options (Unit Only / Unit + Installation)
+    // 3. Type Options
+    private TextView btnInverter, btnNonInverter;
+
+    // 4. Package Options (Unit Only / Unit + Installation)
     private TextView btnUnitOnly, btnWithInstall;
 
     // Estimated Price & Action
@@ -44,6 +47,7 @@ public class AircondDetailsFragment extends Fragment {
     private boolean installation = false;
     private String selectedModel = "FTKF Series";
     private String selectedHP = "1.0 HP";
+    private String selectedType = "Inverter";
     private String selectedPackage = "Unit Only";
 
     private int totalPrice = 0;
@@ -81,7 +85,11 @@ public class AircondDetailsFragment extends Fragment {
         btn15HP = view.findViewById(R.id.btn15HP);
         btn2HP = view.findViewById(R.id.btn2HP);
 
-        // 3. Select Package Views
+        // 3. Select Type Views
+        btnInverter = view.findViewById(R.id.btnInverter);
+        btnNonInverter = view.findViewById(R.id.btnNonInverter);
+
+        // 4. Select Package Views
         btnUnitOnly = view.findViewById(R.id.btnUnitOnly);
         btnWithInstall = view.findViewById(R.id.btnWithInstall);
 
@@ -104,6 +112,7 @@ public class AircondDetailsFragment extends Fragment {
         // Setup Initial Selected UI State
         selectButton(btnFTKF, btnFTKU, btnFTKM);
         selectButton(btn1HP, btn15HP, btn2HP);
+        selectButton(btnInverter, btnNonInverter);
         selectButton(btnUnitOnly, btnWithInstall);
         updatePrice();
 
@@ -150,7 +159,22 @@ public class AircondDetailsFragment extends Fragment {
         });
 
         // =========================
-        // 3. PACKAGE LISTENERS
+        // 3. TYPE LISTENERS
+        // =========================
+        btnInverter.setOnClickListener(v -> {
+            selectedType = "Inverter";
+            selectButton(btnInverter, btnNonInverter);
+            updatePrice();
+        });
+
+        btnNonInverter.setOnClickListener(v -> {
+            selectedType = "Non-Inverter";
+            selectButton(btnNonInverter, btnInverter);
+            updatePrice();
+        });
+
+        // =========================
+        // 4. PACKAGE LISTENERS
         // =========================
         btnUnitOnly.setOnClickListener(v -> {
             installation = false;
@@ -180,6 +204,7 @@ public class AircondDetailsFragment extends Fragment {
             bundle.putSerializable("aircond", aircond);
             bundle.putBoolean("installation", installation);
             bundle.putString("hp", selectedHP);
+            bundle.putString("type", selectedType);
             bundle.putString("model", selectedModel);
             bundle.putString("package", selectedPackage);
             bundle.putInt("price", basePrice);

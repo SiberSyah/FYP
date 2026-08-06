@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">EncikAircond</string>
+    <string name="aircond_maintenance">Aircond Maintenance</string>
+    <string name="select_hp">Select HP</string>
+    <string name="hp_1_0">1.0 HP</string>
+    <string name="hp_1_5">1.5 HP</string>
+    <string name="hp_2_0">2.0 HP</string>
+    <string name="hp_2_5">2.5 HP</string>
+    <string name="select_type">Select Type</string>
+    <string name="inverter">INVERTER</string>
+    <string name="non_inverter">NON-INVERTER</string>
+    <string name="service_type">Service Type</string>
+    <string name="basic_cleaning">Basic Cleaning</string>
+    <string name="chemical_wash">Chemical Wash</string>
+    <string name="chemical_overhaul">Chemical Overhaul</string>
+    <string name="estimated_price">Estimated Price: </string>
+    <string name="next">Next</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="orders">Orders</string>
 </resources>

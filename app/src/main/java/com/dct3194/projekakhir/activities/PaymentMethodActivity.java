@@ -172,7 +172,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(
                         PaymentMethodActivity.this,
-                        StripePaymentActivity.class);
+                        AddPaymentActivity.class);
                 // Customer
                 intent.putExtra("customerName", customerName);
                 intent.putExtra("customerPhone", customerPhone);

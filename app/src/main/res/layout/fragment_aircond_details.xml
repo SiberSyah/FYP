@@ -284,6 +284,8 @@
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="#1565C0"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:background="@android:drawable/btn_default"/>
 
                     <TextView
@@ -296,6 +298,8 @@
                         android:textSize="12sp"
                         android:textStyle="bold"
                         android:textColor="#1565C0"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:background="@android:drawable/btn_default"/>
                 </LinearLayout>
             </LinearLayout>

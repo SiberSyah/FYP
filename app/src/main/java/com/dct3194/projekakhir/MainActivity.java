@@ -1,5 +1,6 @@
 package com.dct3194.projekakhir;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navOrders.setOnClickListener(v -> {
-            loadFragment(new OrdersFragment());
-            selectOrders();
+            Intent intent = new Intent(this, com.dct3194.projekakhir.activities.OrderStatusActivity.class);
+            startActivity(intent);
         });
     }
 
