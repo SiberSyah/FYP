@@ -11,5 +11,10 @@
     <!-- Text -->
     <color name="text_gray">#666666</color>
     <color name="hint_gray">#909090</color>
+    <color name="text_blue">#3158B8</color>
+
+    <!-- Maintenance -->
+    <color name="bg_maintenance">#F8FAFF</color>
+    <color name="divider_color">#E0E0E0</color>
 
 </resources>

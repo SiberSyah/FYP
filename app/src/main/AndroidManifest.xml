@@ -55,6 +55,37 @@
             android:name=".activities.PaymentSuccessActivity"
             android:exported="false" />
 
+        <!-- Maintenance Flow -->
+        <activity
+            android:name=".activities.MaintenanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MaintenanceDateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MaintenanceSummaryActivity"
+            android:exported="false" />
+
+        <!-- Order Flow -->
+        <activity
+            android:name=".activities.OrderStatusActivity"
+            android:exported="false" />
+
+        <!-- Address Management -->
+        <activity
+            android:name=".activities.AddressActivity"
+            android:exported="false" />
+
+        <!-- Auth and Others -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WelcomeActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

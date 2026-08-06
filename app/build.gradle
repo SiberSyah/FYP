@@ -41,6 +41,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.3.0'
     implementation 'com.google.firebase:firebase-firestore:24.10.0'
 
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    implementation 'com.stripe:stripe-android:21.16.0'
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
