@@ -77,6 +77,12 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
     private boolean orderSaving = false;
 
+    // Maintenance
+    private boolean maintenance = false;
+    private String maintenanceType;
+    private String maintenanceService;
+    private String maintenancePrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -324,6 +330,15 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         // ==========================
 
         saveOrderToFirestore();
+
+        // Maintenance Data
+        maintenance = previousIntent.getBooleanExtra(
+                "maintenance",
+                false
+        );
+        maintenanceType = previousIntent.getStringExtra("type");
+        maintenanceService = previousIntent.getStringExtra("service");
+        maintenancePrice = previousIntent.getStringExtra("maintenancePrice");
 
         // ==========================
         // View Order
