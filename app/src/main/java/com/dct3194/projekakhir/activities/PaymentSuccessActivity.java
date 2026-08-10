@@ -25,11 +25,17 @@ import java.util.Map;
 
 public class PaymentSuccessActivity extends AppCompatActivity {
 
+    // ==========================
     // Buttons
+    // ==========================
+
     private Button btnViewOrder;
     private Button btnBackHome;
 
+    // ==========================
     // Bottom Navigation
+    // ==========================
+
     private LinearLayout navProfile;
     private LinearLayout navHome;
     private LinearLayout navOrders;
@@ -38,7 +44,10 @@ public class PaymentSuccessActivity extends AppCompatActivity {
     private ImageView iconHome;
     private ImageView iconOrders;
 
+    // ==========================
     // Booking Data
+    // ==========================
+
     private Aircond aircond;
 
     private String selectedModel;
@@ -53,7 +62,10 @@ public class PaymentSuccessActivity extends AppCompatActivity {
     private String selectedDate;
     private String selectedTime;
 
+    // ==========================
     // Customer Information
+    // ==========================
+
     private String fullName;
     private String phone;
     private String address;
@@ -62,26 +74,29 @@ public class PaymentSuccessActivity extends AppCompatActivity {
     private String postcode;
     private String state;
 
+    // ==========================
     // Payment
+    // ==========================
+
     private String paymentMethod;
     private String paymentIntentId;
 
+    // ==========================
     // Maintenance
+    // ==========================
+
     private boolean maintenance = false;
     private String maintenanceType;
     private String maintenanceService;
     private String maintenancePrice;
 
+    // ==========================
     // Firebase
+    // ==========================
+
     private FirebaseFirestore db;
 
     private boolean orderSaving = false;
-
-    // Maintenance
-    private boolean maintenance = false;
-    private String maintenanceType;
-    private String maintenanceService;
-    private String maintenancePrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,15 +345,6 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         // ==========================
 
         saveOrderToFirestore();
-
-        // Maintenance Data
-        maintenance = previousIntent.getBooleanExtra(
-                "maintenance",
-                false
-        );
-        maintenanceType = previousIntent.getStringExtra("type");
-        maintenanceService = previousIntent.getStringExtra("service");
-        maintenancePrice = previousIntent.getStringExtra("maintenancePrice");
 
         // ==========================
         // View Order
@@ -632,6 +638,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
 
         // Payment has been completed successfully,
         // so the order starts as Confirmed.
+
         order.put(
                 "status",
                 "Confirmed"
@@ -797,11 +804,6 @@ public class PaymentSuccessActivity extends AppCompatActivity {
                         PaymentSuccessActivity.this,
                         MainActivity.class
                 );
-
-        intent.putExtra(
-                "page",
-                "profile"
-        );
 
         intent.putExtra(
                 "page",
