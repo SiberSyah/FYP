@@ -1,5 +1,7 @@
 package com.dct3194.projekakhir.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import com.dct3194.projekakhir.R;
 import com.dct3194.projekakhir.models.Aircond;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
 
 public class AircondDetailsFragment extends Fragment {
 
@@ -25,30 +30,56 @@ public class AircondDetailsFragment extends Fragment {
     private TextView txtName;
     private TextView txtBrand;
 
-    // 1. Model Options
-    private TextView btnFTKF, btnFTKU, btnFTKM;
+    // =========================
+    // Model Options
+    // =========================
 
-    // 2. Horsepower Options
-    private TextView btn1HP, btn15HP, btn2HP;
+    private TextView btnFTKF;
+    private TextView btnFTKU;
+    private TextView btnFTKM;
 
-    // 3. Type Options
-    private TextView btnInverter, btnNonInverter;
+    // =========================
+    // Horsepower Options
+    // =========================
 
-    // 4. Package Options (Unit Only / Unit + Installation)
-    private TextView btnUnitOnly, btnWithInstall;
+    private TextView btn1HP;
+    private TextView btn15HP;
+    private TextView btn2HP;
 
-    // Estimated Price & Action
+    // =========================
+    // Type Options
+    // =========================
+
+    private TextView btnInverter;
+    private TextView btnNonInverter;
+
+    // =========================
+    // Package Options
+    // =========================
+
+    private TextView btnUnitOnly;
+    private TextView btnWithInstall;
+
+    // =========================
+    // Bottom Views
+    // =========================
+
     private TextView txtEstimatedPrice;
     private Button btnContinue;
+
+    // =========================
+    // Aircond Data
+    // =========================
 
     private Aircond aircond;
 
     private int basePrice = 0;
     private boolean installation = false;
-    private String selectedModel = "FTKF Series";
+
+    private String selectedModel = "";
     private String selectedHP = "1.0 HP";
-    private String selectedType = "Inverter";
-    private String selectedPackage = "Unit Only";
+    private String selectedType = "";
+    private String selectedPackage = "";
 
     private int totalPrice = 0;
 
@@ -65,157 +96,201 @@ public class AircondDetailsFragment extends Fragment {
         View view = inflater.inflate(
                 R.layout.fragment_aircond_details,
                 container,
-                false);
+                false
+        );
 
+        // =========================
         // Header & Image
+        // =========================
+
         imgAircond = view.findViewById(R.id.imgAircond);
         btnBack = view.findViewById(R.id.btnBack);
 
+        // =========================
         // Titles
+        // =========================
+
         txtName = view.findViewById(R.id.txtName);
         txtBrand = view.findViewById(R.id.txtBranS);
 
-        // 1. Select Model Views
+        // =========================
+        // Model Options
+        // =========================
+
         btnFTKF = view.findViewById(R.id.btnFTKF);
         btnFTKU = view.findViewById(R.id.btnFTKU);
         btnFTKM = view.findViewById(R.id.btnFTKM);
 
-        // 2. Select HP Views
+        // =========================
+        // HP Options
+        // =========================
+
         btn1HP = view.findViewById(R.id.btn1HP);
         btn15HP = view.findViewById(R.id.btn15HP);
         btn2HP = view.findViewById(R.id.btn2HP);
 
-        // 3. Select Type Views
+        // =========================
+        // Type Options
+        // =========================
+
         btnInverter = view.findViewById(R.id.btnInverter);
         btnNonInverter = view.findViewById(R.id.btnNonInverter);
 
-        // 4. Select Package Views
+        // =========================
+        // Package Options
+        // =========================
+
         btnUnitOnly = view.findViewById(R.id.btnUnitOnly);
         btnWithInstall = view.findViewById(R.id.btnWithInstall);
 
+        // =========================
         // Bottom Views
-        txtEstimatedPrice = view.findViewById(R.id.txtEstimatedPrice);
-        btnContinue = view.findViewById(R.id.btnContinue);
+        // =========================
 
-        // Load Aircond Data from Bundle
+        txtEstimatedPrice =
+                view.findViewById(R.id.txtEstimatedPrice);
+
+        btnContinue =
+                view.findViewById(R.id.btnContinue);
+
+        // =========================
+        // Load Aircond From Bundle
+        // =========================
+
         if (getArguments() != null) {
-            aircond = (Aircond) getArguments().getSerializable("aircond");
+
+            aircond =
+                    (Aircond) getArguments()
+                            .getSerializable("aircond");
 
             if (aircond != null) {
-                imgAircond.setImageResource(aircond.getImage());
-                txtName.setText(aircond.getName());
-                txtBrand.setText(aircond.getBrand());
-                basePrice = aircond.getPrice1HP();
+
+                // =========================
+                // Basic Information
+                // =========================
+
+                txtName.setText(
+                        aircond.getName()
+                );
+
+                txtBrand.setText(
+                        aircond.getBrand()
+                );
+
+                // =========================
+                // Initial Price
+                // =========================
+
+                basePrice =
+                        aircond.getPrice1HP();
+
+                // =========================
+                // Load Firebase Image
+                // =========================
+
+                loadAircondImage(
+                        aircond.getImageUrl()
+                );
+
+                // =========================
+                // Load Firestore Options
+                // =========================
+
+                setupModels();
+                setupTypes();
+                setupPackages();
+
+                // Panggil kalkulasi awal supaya totalPrice terisi dan txtEstimatedPrice terkemaskini
+                updatePrice();
             }
         }
 
-        // Setup Initial Selected UI State
-        selectButton(btnFTKF, btnFTKU, btnFTKM);
-        selectButton(btn1HP, btn15HP, btn2HP);
-        selectButton(btnInverter, btnNonInverter);
-        selectButton(btnUnitOnly, btnWithInstall);
-        updatePrice();
+        // =========================
+        // HP Initial State
+        // =========================
+
+        selectButton(
+                btn1HP,
+                btn15HP,
+                btn2HP
+        );
 
         // =========================
-        // 1. MODEL LISTENERS
+        // HP Listeners
         // =========================
-        btnFTKF.setOnClickListener(v -> {
-            selectedModel = "FTKF Series";
-            selectButton(btnFTKF, btnFTKU, btnFTKM);
-        });
 
-        btnFTKU.setOnClickListener(v -> {
-            selectedModel = "FTKU Series";
-            selectButton(btnFTKU, btnFTKF, btnFTKM);
-        });
-
-        btnFTKM.setOnClickListener(v -> {
-            selectedModel = "FTKM Series";
-            selectButton(btnFTKM, btnFTKF, btnFTKU);
-        });
+        setupHPListeners();
 
         // =========================
-        // 2. HP LISTENERS
-        // =========================
-        btn1HP.setOnClickListener(v -> {
-            if (aircond != null) basePrice = aircond.getPrice1HP();
-            selectedHP = "1.0 HP";
-            selectButton(btn1HP, btn15HP, btn2HP);
-            updatePrice();
-        });
-
-        btn15HP.setOnClickListener(v -> {
-            if (aircond != null) basePrice = aircond.getPrice15HP();
-            selectedHP = "1.5 HP";
-            selectButton(btn15HP, btn1HP, btn2HP);
-            updatePrice();
-        });
-
-        btn2HP.setOnClickListener(v -> {
-            if (aircond != null) basePrice = aircond.getPrice2HP();
-            selectedHP = "2.0 HP";
-            selectButton(btn2HP, btn1HP, btn15HP);
-            updatePrice();
-        });
-
-        // =========================
-        // 3. TYPE LISTENERS
-        // =========================
-        btnInverter.setOnClickListener(v -> {
-            selectedType = "Inverter";
-            selectButton(btnInverter, btnNonInverter);
-            updatePrice();
-        });
-
-        btnNonInverter.setOnClickListener(v -> {
-            selectedType = "Non-Inverter";
-            selectButton(btnNonInverter, btnInverter);
-            updatePrice();
-        });
-
-        // =========================
-        // 4. PACKAGE LISTENERS
-        // =========================
-        btnUnitOnly.setOnClickListener(v -> {
-            installation = false;
-            selectedPackage = "Unit Only";
-            selectButton(btnUnitOnly, btnWithInstall);
-            updatePrice();
-        });
-
-        btnWithInstall.setOnClickListener(v -> {
-            installation = true;
-            selectedPackage = "Unit + Installation";
-            selectButton(btnWithInstall, btnUnitOnly);
-            updatePrice();
-        });
-
         // Back Navigation
+        // =========================
+
         btnBack.setOnClickListener(v ->
                 requireActivity()
                         .getSupportFragmentManager()
-                        .popBackStack());
+                        .popBackStack()
+        );
 
+        // =========================
         // Continue Navigation
+        // =========================
+
         btnContinue.setOnClickListener(v -> {
-            SelectDateTimeFragment fragment = new SelectDateTimeFragment();
+
+            SelectDateTimeFragment fragment =
+                    new SelectDateTimeFragment();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("aircond", aircond);
-            bundle.putBoolean("installation", installation);
-            bundle.putString("hp", selectedHP);
-            bundle.putString("type", selectedType);
-            bundle.putString("model", selectedModel);
-            bundle.putString("package", selectedPackage);
-            bundle.putInt("price", basePrice);
-            bundle.putInt("totalPrice", totalPrice);
+
+            bundle.putSerializable(
+                    "aircond",
+                    aircond
+            );
+
+            bundle.putBoolean(
+                    "installation",
+                    installation
+            );
+
+            bundle.putString(
+                    "hp",
+                    selectedHP
+            );
+
+            bundle.putString(
+                    "type",
+                    selectedType
+            );
+
+            bundle.putString(
+                    "model",
+                    selectedModel
+            );
+
+            bundle.putString(
+                    "package",
+                    selectedPackage
+            );
+
+            bundle.putInt(
+                    "price",
+                    basePrice
+            );
+
+            bundle.putInt(
+                    "totalPrice",
+                    totalPrice
+            );
 
             fragment.setArguments(bundle);
 
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
+                    .replace(
+                            R.id.fragment_container,
+                            fragment
+                    )
                     .addToBackStack(null)
                     .commit();
         });
@@ -223,24 +298,444 @@ public class AircondDetailsFragment extends Fragment {
         return view;
     }
 
-    // Tukar warna butang yang dipilih (Active vs Inactive)
-    private void selectButton(TextView active, TextView... inactives) {
-        active.setBackgroundColor(Color.parseColor("#1565C0"));
-        active.setTextColor(Color.WHITE);
+    // =====================================================
+    // SETUP MODELS FROM FIRESTORE
+    // =====================================================
 
-        for (TextView inactive : inactives) {
-            inactive.setBackgroundColor(Color.parseColor("#E0E9FA"));
-            inactive.setTextColor(Color.parseColor("#1565C0"));
+    private void setupModels() {
+
+        List<String> models = aircond.getModels();
+
+        // Default hide semua dahulu
+        btnFTKF.setVisibility(View.GONE);
+        btnFTKU.setVisibility(View.GONE);
+        btnFTKM.setVisibility(View.GONE);
+
+        if (models == null || models.isEmpty()) {
+            return;
+        }
+
+        // =========================
+        // Model 0
+        // =========================
+
+        if (models.size() > 0) {
+
+            btnFTKF.setVisibility(View.VISIBLE);
+            btnFTKF.setText(models.get(0));
+
+            btnFTKF.setOnClickListener(v -> {
+
+                selectedModel =
+                        models.get(0);
+
+                selectButton(
+                        btnFTKF,
+                        btnFTKU,
+                        btnFTKM
+                );
+            });
+
+            // Pilih model pertama secara default
+            selectedModel =
+                    models.get(0);
+
+            selectButton(
+                    btnFTKF,
+                    btnFTKU,
+                    btnFTKM
+            );
+        }
+
+        // =========================
+        // Model 1
+        // =========================
+
+        if (models.size() > 1) {
+
+            btnFTKU.setVisibility(View.VISIBLE);
+            btnFTKU.setText(models.get(1));
+
+            btnFTKU.setOnClickListener(v -> {
+
+                selectedModel =
+                        models.get(1);
+
+                selectButton(
+                        btnFTKU,
+                        btnFTKF,
+                        btnFTKM
+                );
+            });
+        }
+
+        // =========================
+        // Model 2
+        // =========================
+
+        if (models.size() > 2) {
+
+            btnFTKM.setVisibility(View.VISIBLE);
+            btnFTKM.setText(models.get(2));
+
+            btnFTKM.setOnClickListener(v -> {
+
+                selectedModel =
+                        models.get(2);
+
+                selectButton(
+                        btnFTKM,
+                        btnFTKF,
+                        btnFTKU
+                );
+            });
         }
     }
 
-    // Kemaskini jumlah harga
-    private void updatePrice() {
-        int total = basePrice;
-        if (installation) {
-            total += 250; // Kos pemasangan
+    // =====================================================
+    // SETUP TYPES FROM FIRESTORE
+    // =====================================================
+
+    private void setupTypes() {
+
+        List<String> types = aircond.getTypes();
+
+        // Default hide
+        btnInverter.setVisibility(View.GONE);
+        btnNonInverter.setVisibility(View.GONE);
+
+        if (types == null || types.isEmpty()) {
+            return;
         }
+
+        // =========================
+        // Type 0
+        // =========================
+
+        if (types.size() > 0) {
+
+            btnInverter.setVisibility(View.VISIBLE);
+            btnInverter.setText(types.get(0));
+
+            btnInverter.setOnClickListener(v -> {
+
+                selectedType =
+                        types.get(0);
+
+                selectButton(
+                        btnInverter,
+                        btnNonInverter
+                );
+
+                updatePrice();
+            });
+
+            selectedType =
+                    types.get(0);
+
+            selectButton(
+                    btnInverter,
+                    btnNonInverter
+            );
+        }
+
+        // =========================
+        // Type 1
+        // =========================
+
+        if (types.size() > 1) {
+
+            btnNonInverter.setVisibility(View.VISIBLE);
+            btnNonInverter.setText(types.get(1));
+
+            btnNonInverter.setOnClickListener(v -> {
+
+                selectedType =
+                        types.get(1);
+
+                selectButton(
+                        btnNonInverter,
+                        btnInverter
+                );
+
+                updatePrice();
+            });
+        }
+    }
+
+    // =====================================================
+    // SETUP PACKAGES FROM FIRESTORE
+    // =====================================================
+
+    private void setupPackages() {
+
+        List<String> packages =
+                aircond.getPackages();
+
+        // Default hide
+        btnUnitOnly.setVisibility(View.GONE);
+        btnWithInstall.setVisibility(View.GONE);
+
+        if (packages == null || packages.isEmpty()) {
+            return;
+        }
+
+        // =========================
+        // Package 0
+        // =========================
+
+        if (packages.size() > 0) {
+
+            btnUnitOnly.setVisibility(View.VISIBLE);
+            btnUnitOnly.setText(packages.get(0));
+
+            btnUnitOnly.setOnClickListener(v -> {
+
+                selectedPackage =
+                        packages.get(0);
+
+                installation = false;
+
+                selectButton(
+                        btnUnitOnly,
+                        btnWithInstall
+                );
+
+                updatePrice();
+            });
+
+            selectedPackage =
+                    packages.get(0);
+
+            installation = false;
+
+            selectButton(
+                    btnUnitOnly,
+                    btnWithInstall
+            );
+        }
+
+        // =========================
+        // Package 1
+        // =========================
+
+        if (packages.size() > 1) {
+
+            btnWithInstall.setVisibility(View.VISIBLE);
+            btnWithInstall.setText(packages.get(1));
+
+            btnWithInstall.setOnClickListener(v -> {
+
+                selectedPackage =
+                        packages.get(1);
+
+                installation = true;
+
+                selectButton(
+                        btnWithInstall,
+                        btnUnitOnly
+                );
+
+                updatePrice();
+            });
+        }
+    }
+
+    // =====================================================
+    // HP LISTENERS
+    // =====================================================
+
+    private void setupHPListeners() {
+
+        // =========================
+        // 1.0 HP
+        // =========================
+
+        btn1HP.setOnClickListener(v -> {
+
+            if (aircond != null) {
+
+                basePrice =
+                        aircond.getPrice1HP();
+            }
+
+            selectedHP = "1.0 HP";
+
+            selectButton(
+                    btn1HP,
+                    btn15HP,
+                    btn2HP
+            );
+
+            updatePrice();
+        });
+
+        // =========================
+        // 1.5 HP
+        // =========================
+
+        btn15HP.setOnClickListener(v -> {
+
+            if (aircond != null) {
+
+                basePrice =
+                        aircond.getPrice15HP();
+            }
+
+            selectedHP = "1.5 HP";
+
+            selectButton(
+                    btn15HP,
+                    btn1HP,
+                    btn2HP
+            );
+
+            updatePrice();
+        });
+
+        // =========================
+        // 2.0 HP
+        // =========================
+
+        btn2HP.setOnClickListener(v -> {
+
+            if (aircond != null) {
+
+                basePrice =
+                        aircond.getPrice2HP();
+            }
+
+            selectedHP = "2.0 HP";
+
+            selectButton(
+                    btn2HP,
+                    btn1HP,
+                    btn15HP
+            );
+
+            updatePrice();
+        });
+    }
+
+    // =====================================================
+    // LOAD IMAGE FROM FIREBASE STORAGE
+    // =====================================================
+
+    private void loadAircondImage(String imageUrl) {
+
+        imgAircond.setImageResource(
+                R.mipmap.ic_launcher
+        );
+
+        if (imageUrl == null ||
+                imageUrl.trim().isEmpty()) {
+
+            return;
+        }
+
+        try {
+
+            StorageReference imageReference =
+                    FirebaseStorage
+                            .getInstance()
+                            .getReferenceFromUrl(
+                                    imageUrl
+                            );
+
+            imageReference
+                    .getBytes(5 * 1024 * 1024)
+                    .addOnSuccessListener(bytes -> {
+
+                        Bitmap bitmap =
+                                BitmapFactory.decodeByteArray(
+                                        bytes,
+                                        0,
+                                        bytes.length
+                                );
+
+                        if (bitmap != null) {
+
+                            imgAircond.setImageBitmap(
+                                    bitmap
+                            );
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+
+                        imgAircond.setImageResource(
+                                R.mipmap.ic_launcher
+                        );
+                    });
+
+        } catch (Exception e) {
+
+            imgAircond.setImageResource(
+                    R.mipmap.ic_launcher
+            );
+        }
+    }
+
+    // =====================================================
+    // BUTTON SELECTION
+    // =====================================================
+
+    private void selectButton(
+            TextView active,
+            TextView... inactives) {
+
+        if (active == null ||
+                active.getVisibility() != View.VISIBLE) {
+
+            return;
+        }
+
+        active.setBackgroundColor(
+                Color.parseColor("#1565C0")
+        );
+
+        active.setTextColor(
+                Color.WHITE
+        );
+
+        for (TextView inactive : inactives) {
+
+            if (inactive != null &&
+                    inactive.getVisibility() == View.VISIBLE) {
+
+                inactive.setBackgroundColor(
+                        Color.parseColor("#E0E9FA")
+                );
+
+                inactive.setTextColor(
+                        Color.parseColor("#1565C0")
+                );
+            }
+        }
+    }
+
+    // =====================================================
+    // UPDATE TOTAL PRICE
+    // =====================================================
+
+    private void updatePrice() {
+
+        int total = basePrice;
+
+        if (installation &&
+                aircond != null) {
+
+            total +=
+                    aircond.getInstallationPrice();
+        }
+
         totalPrice = total;
-        txtEstimatedPrice.setText("RM" + String.format("%,d", total));
+
+        txtEstimatedPrice.setText(
+                "RM" +
+                        String.format(
+                                "%,d",
+                                total
+                        )
+        );
     }
 }

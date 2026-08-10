@@ -19,7 +19,10 @@ import com.dct3194.projekakhir.models.Aircond;
 
 public class PaymentMethodActivity extends AppCompatActivity {
 
+    // ==========================
     // Payment Method
+    // ==========================
+
     private CardView cardOnlineBanking;
     private CardView cardCard;
 
@@ -28,7 +31,10 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
     private Button btnConfirmPayment;
 
+    // ==========================
     // Bottom Navigation
+    // ==========================
+
     private LinearLayout navProfile;
     private LinearLayout navHome;
     private LinearLayout navOrders;
@@ -37,11 +43,15 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private ImageView iconHome;
     private ImageView iconOrders;
 
+    // ==========================
     // Booking
+    // ==========================
+
     private Aircond aircond;
 
     private String selectedModel;
     private String selectedHP;
+    private String aircondType;
     private String selectedPackage;
 
     private int selectedPrice;
@@ -52,38 +62,74 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private String selectedDate;
     private String selectedTime;
 
+    // ==========================
+    // Maintenance
+    // ==========================
+
+    private boolean maintenance = false;
+    private String maintenanceType;
+    private String maintenanceService;
+    private String maintenancePrice;
+
+    // ==========================
     // Customer
+    // ==========================
+
     private String customerName;
     private String customerPhone;
     private String customerAddress;
 
+    // ==========================
     // Payment
+    // ==========================
+
     private String paymentMethod = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_method);
+
+        setContentView(
+                R.layout.activity_payment_method
+        );
 
         // ==========================
         // Initialize Views
         // ==========================
 
-        cardOnlineBanking = findViewById(R.id.cardOnlineBanking);
-        cardCard = findViewById(R.id.cardCard);
+        cardOnlineBanking =
+                findViewById(R.id.cardOnlineBanking);
 
-        radioOnlineBanking = findViewById(R.id.radioOnlineBanking);
-        radioCard = findViewById(R.id.radioCard);
+        cardCard =
+                findViewById(R.id.cardCard);
 
-        btnConfirmPayment = findViewById(R.id.btnConfirmPayment);
+        radioOnlineBanking =
+                findViewById(R.id.radioOnlineBanking);
 
-        navProfile = findViewById(R.id.navProfile);
-        navHome = findViewById(R.id.navHome);
-        navOrders = findViewById(R.id.navOrders);
+        radioCard =
+                findViewById(R.id.radioCard);
 
-        iconProfile = findViewById(R.id.iconProfile);
-        iconHome = findViewById(R.id.iconHome);
-        iconOrders = findViewById(R.id.iconOrders);
+        btnConfirmPayment =
+                findViewById(R.id.btnConfirmPayment);
+
+        navProfile =
+                findViewById(R.id.navProfile);
+
+        navHome =
+                findViewById(R.id.navHome);
+
+        navOrders =
+                findViewById(R.id.navOrders);
+
+        iconProfile =
+                findViewById(R.id.iconProfile);
+
+        iconHome =
+                findViewById(R.id.iconHome);
+
+        iconOrders =
+                findViewById(R.id.iconOrders);
 
         selectHome();
 
@@ -93,23 +139,87 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         Intent previousIntent = getIntent();
 
-        aircond = (Aircond) previousIntent.getSerializableExtra("aircond");
+        aircond =
+                (Aircond) previousIntent
+                        .getSerializableExtra("aircond");
 
-        selectedModel = previousIntent.getStringExtra("model");
-        selectedHP = previousIntent.getStringExtra("hp");
-        selectedPackage = previousIntent.getStringExtra("package");
+        selectedModel =
+                previousIntent.getStringExtra("model");
 
-        selectedPrice = previousIntent.getIntExtra("price", 0);
-        totalPrice = previousIntent.getIntExtra("totalPrice", 0);
+        selectedHP =
+                previousIntent.getStringExtra("hp");
 
-        installation = previousIntent.getBooleanExtra("installation", false);
+        // Aircond Type
+        // Inverter / Non-Inverter
+        aircondType =
+                previousIntent.getStringExtra("type");
 
-        selectedDate = previousIntent.getStringExtra("date");
-        selectedTime = previousIntent.getStringExtra("time");
+        selectedPackage =
+                previousIntent.getStringExtra("package");
 
-        customerName = previousIntent.getStringExtra("customerName");
-        customerPhone = previousIntent.getStringExtra("customerPhone");
-        customerAddress = previousIntent.getStringExtra("customerAddress");
+        selectedPrice =
+                previousIntent.getIntExtra(
+                        "price",
+                        0
+                );
+
+        totalPrice =
+                previousIntent.getIntExtra(
+                        "totalPrice",
+                        0
+                );
+
+        installation =
+                previousIntent.getBooleanExtra(
+                        "installation",
+                        false
+                );
+
+        selectedDate =
+                previousIntent.getStringExtra("date");
+
+        selectedTime =
+                previousIntent.getStringExtra("time");
+
+        customerName =
+                previousIntent.getStringExtra(
+                        "customerName"
+                );
+
+        customerPhone =
+                previousIntent.getStringExtra(
+                        "customerPhone"
+                );
+
+        customerAddress =
+                previousIntent.getStringExtra(
+                        "customerAddress"
+                );
+
+        // ==========================
+        // Maintenance Data
+        // ==========================
+
+        maintenance =
+                previousIntent.getBooleanExtra(
+                        "maintenance",
+                        false
+                );
+
+        maintenanceType =
+                previousIntent.getStringExtra(
+                        "maintenanceType"
+                );
+
+        maintenanceService =
+                previousIntent.getStringExtra(
+                        "service"
+                );
+
+        maintenancePrice =
+                previousIntent.getStringExtra(
+                        "maintenancePrice"
+                );
 
         // ==========================
         // Payment Selection
@@ -120,7 +230,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
             radioOnlineBanking.setChecked(true);
             radioCard.setChecked(false);
 
-            paymentMethod = "Online Banking";
+            paymentMethod =
+                    "Online Banking";
         });
 
         cardCard.setOnClickListener(v -> {
@@ -128,7 +239,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
             radioCard.setChecked(true);
             radioOnlineBanking.setChecked(false);
 
-            paymentMethod = "Credit / Debit Card";
+            paymentMethod =
+                    "Credit / Debit Card";
         });
 
         radioOnlineBanking.setOnClickListener(v -> {
@@ -136,7 +248,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
             radioOnlineBanking.setChecked(true);
             radioCard.setChecked(false);
 
-            paymentMethod = "Online Banking";
+            paymentMethod =
+                    "Online Banking";
         });
 
         radioCard.setOnClickListener(v -> {
@@ -144,7 +257,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
             radioCard.setChecked(true);
             radioOnlineBanking.setChecked(false);
 
-            paymentMethod = "Credit / Debit Card";
+            paymentMethod =
+                    "Credit / Debit Card";
         });
 
         // ==========================
@@ -168,31 +282,120 @@ public class PaymentMethodActivity extends AppCompatActivity {
             // Credit / Debit Card
             // ==========================
 
-            if (paymentMethod.equals("Credit / Debit Card")) {
+            if (paymentMethod.equals(
+                    "Credit / Debit Card")) {
 
-                Intent intent = new Intent(
-                        PaymentMethodActivity.this,
-                        StripePaymentActivity.class
+                Intent intent =
+                        new Intent(
+                                PaymentMethodActivity.this,
+                                StripePaymentActivity.class
+                        );
+
+                // ==========================
+                // Customer
+                // ==========================
+
+                intent.putExtra(
+                        "customerName",
+                        customerName
                 );
 
-                // Customer
-                intent.putExtra("customerName", customerName);
-                intent.putExtra("customerPhone", customerPhone);
-                intent.putExtra("customerAddress", customerAddress);
+                intent.putExtra(
+                        "customerPhone",
+                        customerPhone
+                );
 
+                intent.putExtra(
+                        "customerAddress",
+                        customerAddress
+                );
+
+                // ==========================
                 // Booking
-                intent.putExtra("aircond", aircond);
-                intent.putExtra("model", selectedModel);
-                intent.putExtra("hp", selectedHP);
-                intent.putExtra("package", selectedPackage);
-                intent.putExtra("price", selectedPrice);
-                intent.putExtra("totalPrice", totalPrice);
-                intent.putExtra("installation", installation);
-                intent.putExtra("date", selectedDate);
-                intent.putExtra("time", selectedTime);
+                // ==========================
 
+                intent.putExtra(
+                        "aircond",
+                        aircond
+                );
+
+                intent.putExtra(
+                        "model",
+                        selectedModel
+                );
+
+                intent.putExtra(
+                        "hp",
+                        selectedHP
+                );
+
+                intent.putExtra(
+                        "type",
+                        aircondType
+                );
+
+                intent.putExtra(
+                        "package",
+                        selectedPackage
+                );
+
+                intent.putExtra(
+                        "price",
+                        selectedPrice
+                );
+
+                intent.putExtra(
+                        "totalPrice",
+                        totalPrice
+                );
+
+                intent.putExtra(
+                        "installation",
+                        installation
+                );
+
+                intent.putExtra(
+                        "date",
+                        selectedDate
+                );
+
+                intent.putExtra(
+                        "time",
+                        selectedTime
+                );
+
+                // ==========================
+                // Maintenance
+                // ==========================
+
+                intent.putExtra(
+                        "maintenance",
+                        maintenance
+                );
+
+                intent.putExtra(
+                        "maintenanceType",
+                        maintenanceType
+                );
+
+                intent.putExtra(
+                        "service",
+                        maintenanceService
+                );
+
+                intent.putExtra(
+                        "maintenancePrice",
+                        maintenancePrice
+                );
+
+                // ==========================
                 // Payment
-                intent.putExtra("paymentMethod", paymentMethod);
+                // ==========================
+
+                intent.putExtra(
+                        "paymentMethod",
+                        paymentMethod
+                );
 
                 startActivity(intent);
 
@@ -203,29 +406,117 @@ public class PaymentMethodActivity extends AppCompatActivity {
             // Online Banking
             // ==========================
 
-            Intent intent = new Intent(
-                    PaymentMethodActivity.this,
-                    ToyyibPayActivity.class
+            Intent intent =
+                    new Intent(
+                            PaymentMethodActivity.this,
+                            ToyyibPayActivity.class
+                    );
+
+            // ==========================
+            // Customer
+            // ==========================
+
+            intent.putExtra(
+                    "customerName",
+                    customerName
             );
 
-            // Customer
-            intent.putExtra("customerName", customerName);
-            intent.putExtra("customerPhone", customerPhone);
-            intent.putExtra("customerAddress", customerAddress);
+            intent.putExtra(
+                    "customerPhone",
+                    customerPhone
+            );
 
+            intent.putExtra(
+                    "customerAddress",
+                    customerAddress
+            );
+
+            // ==========================
             // Booking
-            intent.putExtra("aircond", aircond);
-            intent.putExtra("model", selectedModel);
-            intent.putExtra("hp", selectedHP);
-            intent.putExtra("package", selectedPackage);
-            intent.putExtra("price", selectedPrice);
-            intent.putExtra("totalPrice", totalPrice);
-            intent.putExtra("installation", installation);
-            intent.putExtra("date", selectedDate);
-            intent.putExtra("time", selectedTime);
+            // ==========================
 
+            intent.putExtra(
+                    "aircond",
+                    aircond
+            );
+
+            intent.putExtra(
+                    "model",
+                    selectedModel
+            );
+
+            intent.putExtra(
+                    "hp",
+                    selectedHP
+            );
+
+            intent.putExtra(
+                    "type",
+                    aircondType
+            );
+
+            intent.putExtra(
+                    "package",
+                    selectedPackage
+            );
+
+            intent.putExtra(
+                    "price",
+                    selectedPrice
+            );
+
+            intent.putExtra(
+                    "totalPrice",
+                    totalPrice
+            );
+
+            intent.putExtra(
+                    "installation",
+                    installation
+            );
+
+            intent.putExtra(
+                    "date",
+                    selectedDate
+            );
+
+            intent.putExtra(
+                    "time",
+                    selectedTime
+            );
+
+            // ==========================
+            // Maintenance
+            // ==========================
+
+            intent.putExtra(
+                    "maintenance",
+                    maintenance
+            );
+
+            intent.putExtra(
+                    "maintenanceType",
+                    maintenanceType
+            );
+
+            intent.putExtra(
+                    "service",
+                    maintenanceService
+            );
+
+            intent.putExtra(
+                    "maintenancePrice",
+                    maintenancePrice
+            );
+
+            // ==========================
             // Payment
-            intent.putExtra("paymentMethod", paymentMethod);
+            // ==========================
+
+            intent.putExtra(
+                    "paymentMethod",
+                    paymentMethod
+            );
 
             startActivity(intent);
         });
@@ -238,13 +529,20 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             selectHome();
 
-            Intent intent = new Intent(
-                    PaymentMethodActivity.this,
-                    MainActivity.class
+            Intent intent =
+                    new Intent(
+                            PaymentMethodActivity.this,
+                            MainActivity.class
+                    );
+
+            intent.putExtra(
+                    "page",
+                    "home"
             );
 
-            intent.putExtra("page", "home");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+            );
 
             startActivity(intent);
             finish();
@@ -254,13 +552,20 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             selectOrders();
 
-            Intent intent = new Intent(
-                    PaymentMethodActivity.this,
-                    MainActivity.class
+            Intent intent =
+                    new Intent(
+                            PaymentMethodActivity.this,
+                            MainActivity.class
+                    );
+
+            intent.putExtra(
+                    "page",
+                    "orders"
             );
 
-            intent.putExtra("page", "orders");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+            );
 
             startActivity(intent);
             finish();
@@ -270,13 +575,20 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             selectProfile();
 
-            Intent intent = new Intent(
-                    PaymentMethodActivity.this,
-                    MainActivity.class
+            Intent intent =
+                    new Intent(
+                            PaymentMethodActivity.this,
+                            MainActivity.class
+                    );
+
+            intent.putExtra(
+                    "page",
+                    "profile"
             );
 
-            intent.putExtra("page", "profile");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+            );
 
             startActivity(intent);
             finish();
@@ -290,15 +602,21 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private void resetIcons() {
 
         iconProfile.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY)
+                ColorStateList.valueOf(
+                        Color.GRAY
+                )
         );
 
         iconHome.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY)
+                ColorStateList.valueOf(
+                        Color.GRAY
+                )
         );
 
         iconOrders.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY)
+                ColorStateList.valueOf(
+                        Color.GRAY
+                )
         );
     }
 
@@ -308,7 +626,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconProfile.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")
+                        Color.parseColor(
+                                "#3158B8"
+                        )
                 )
         );
     }
@@ -319,7 +639,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconHome.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")
+                        Color.parseColor(
+                                "#3158B8"
+                        )
                 )
         );
     }
@@ -330,7 +652,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconOrders.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")
+                        Color.parseColor(
+                                "#3158B8"
+                        )
                 )
         );
     }

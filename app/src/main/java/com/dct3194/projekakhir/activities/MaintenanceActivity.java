@@ -51,15 +51,37 @@ public class MaintenanceActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btnNext);
 
         btnNext.setOnClickListener(v -> {
-            if (selectedHP.isEmpty() || selectedType.isEmpty() || selectedService.isEmpty()) {
-                android.widget.Toast.makeText(this, "Please select all options first", android.widget.Toast.LENGTH_SHORT).show();
+
+            if (selectedHP.isEmpty() ||
+                    selectedType.isEmpty() ||
+                    selectedService.isEmpty()) {
+
+                android.widget.Toast.makeText(
+                        this,
+                        "Please select all options first",
+                        android.widget.Toast.LENGTH_SHORT
+                ).show();
+
                 return;
             }
-            Intent intent = new Intent(MaintenanceActivity.this, MaintenanceDateActivity.class);
+
+
+            Intent intent = new Intent(
+                    MaintenanceActivity.this,
+                    MainActivity.class
+            );
+
+
+            intent.putExtra("openFragment", "maintenanceDate");
+
+            intent.putExtra("mode", "MAINTENANCE");
+
             intent.putExtra("hp", selectedHP);
             intent.putExtra("type", selectedType);
             intent.putExtra("service", selectedService);
             intent.putExtra("price", tvPriceValue.getText().toString());
+
+
             startActivity(intent);
         });
 

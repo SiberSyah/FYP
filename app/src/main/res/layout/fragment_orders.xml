@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEF5FF">
@@ -33,45 +34,19 @@
             android:textColor="#8A97A8"
             android:textSize="15sp"/>
 
-        <!-- Order Card -->
-        <LinearLayout
+        <!-- Dynamic Order List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerOrders"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="35dp"
-            android:background="@drawable/card_background"
-            android:elevation="6dp"
-            android:orientation="vertical"
-            android:padding="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aircond Installation"
-                android:textColor="#3158B8"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="Booking ID : #0001"
-                android:textColor="#8A97A8"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Status : Pending"
-                android:textColor="#FF9800"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="20dp"/>
 
         <!-- Empty Order Card -->
         <LinearLayout
+            android:id="@+id/layoutNoOrders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -79,7 +54,8 @@
             android:elevation="6dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="28dp">
+            android:padding="28dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="80dp"
