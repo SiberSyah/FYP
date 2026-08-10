@@ -172,7 +172,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(
                         PaymentMethodActivity.this,
-                        AddPaymentActivity.class);
+                        StripePaymentActivity.class
+                );
+
                 // Customer
                 intent.putExtra("customerName", customerName);
                 intent.putExtra("customerPhone", customerPhone);
@@ -203,7 +205,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     PaymentMethodActivity.this,
-                    ToyyibPayActivity.class);
+                    ToyyibPayActivity.class
+            );
 
             // Customer
             intent.putExtra("customerName", customerName);
@@ -237,7 +240,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     PaymentMethodActivity.this,
-                    MainActivity.class);
+                    MainActivity.class
+            );
 
             intent.putExtra("page", "home");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -252,7 +256,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     PaymentMethodActivity.this,
-                    MainActivity.class);
+                    MainActivity.class
+            );
 
             intent.putExtra("page", "orders");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -267,7 +272,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             Intent intent = new Intent(
                     PaymentMethodActivity.this,
-                    MainActivity.class);
+                    MainActivity.class
+            );
 
             intent.putExtra("page", "profile");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -275,7 +281,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
     }
 
     // ==========================
@@ -285,13 +290,16 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private void resetIcons() {
 
         iconProfile.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY));
+                ColorStateList.valueOf(Color.GRAY)
+        );
 
         iconHome.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY));
+                ColorStateList.valueOf(Color.GRAY)
+        );
 
         iconOrders.setImageTintList(
-                ColorStateList.valueOf(Color.GRAY));
+                ColorStateList.valueOf(Color.GRAY)
+        );
     }
 
     private void selectProfile() {
@@ -300,7 +308,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconProfile.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")));
+                        Color.parseColor("#3158B8")
+                )
+        );
     }
 
     private void selectHome() {
@@ -309,7 +319,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconHome.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")));
+                        Color.parseColor("#3158B8")
+                )
+        );
     }
 
     private void selectOrders() {
@@ -318,6 +330,8 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         iconOrders.setImageTintList(
                 ColorStateList.valueOf(
-                        Color.parseColor("#3158B8")));
+                        Color.parseColor("#3158B8")
+                )
+        );
     }
 }

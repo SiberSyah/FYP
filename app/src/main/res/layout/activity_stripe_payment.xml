@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F9FC">
+    android:background="#F5F8FD">
 
-    <!-- Header -->
+    <!-- =========================
+         HEADER
+         ========================= -->
+
     <TextView
         android:id="@+id/txtTitle"
         android:layout_width="0dp"
@@ -16,37 +18,42 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="24dp"
         android:text="Payment"
-        android:textColor="#1A1A1A"
+        android:textColor="#17213A"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="5dp"
         android:text="Complete your payment securely"
-        android:textColor="#777777"
+        android:textColor="#71809A"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/txtTitle"
         app:layout_constraintStart_toStartOf="@id/txtTitle"
+        app:layout_constraintEnd_toEndOf="@id/txtTitle"
         app:layout_constraintTop_toBottomOf="@id/txtTitle" />
 
-    <!-- Total Payment Card -->
+
+    <!-- =========================
+         PAYMENT SUMMARY
+         ========================= -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/paymentSummaryCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="#1565C0"
         app:cardCornerRadius="18dp"
-        app:cardElevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cardElevation="3dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtSubtitle">
 
         <LinearLayout
@@ -59,98 +66,238 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Payment"
-                android:textColor="#777777"
-                android:textSize="14sp" />
+                android:textColor="#DDEBFF"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/txtAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:text="Total : RM 0"
-                android:textColor="#111111"
-                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:textSize="27sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Payment for your aircond booking"
+                android:textColor="#DDEBFF"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Card Payment Section -->
+
+    <!-- =========================
+         CARD DETAILS
+         ========================= -->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPayment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="18dp"
-        app:cardElevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:cardElevation="3dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/paymentSummaryCard">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="18dp">
+
+            <!-- TITLE -->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Card Details"
-                android:textColor="#1A1A1A"
+                android:textColor="#17213A"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Enter your card information"
-                android:textColor="#777777"
-                android:textSize="13sp" />
+                android:layout_marginTop="3dp"
+                android:text="Enter your card information below"
+                android:textColor="#71809A"
+                android:textSize="12sp" />
 
-            <com.stripe.android.view.CardInputWidget
-                android:id="@+id/cardInputWidget"
+
+            <!-- CARDHOLDER NAME -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Cardholder Name"
+                android:textColor="#40516F"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etCardHolder"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_payment_input"
+                android:hint="Name on card"
+                android:inputType="textPersonName"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#17213A"
+                android:textColorHint="#9AA5B5"
+                android:textSize="14sp" />
+
+
+            <!-- CARD INFORMATION (2 BARIS) -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Card Information"
+                android:textColor="#40516F"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- BARIS 1: CARD NUMBER -->
+            <EditText
+                android:id="@+id/etCardNumber"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_payment_input"
+                android:hint="1234 1234 1234 1234"
+                android:inputType="number"
+                android:maxLength="19"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#17213A"
+                android:textColorHint="#9AA5B5"
+                android:textSize="14sp" />
+
+            <!-- BARIS 2: EXPIRY DATE & CVC -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp" />
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etExpiry"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:background="@drawable/bg_payment_input"
+                    android:hint="MM/YY"
+                    android:inputType="datetime"
+                    android:maxLength="5"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#17213A"
+                    android:textColorHint="#9AA5B5"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/etCvc"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_payment_input"
+                    android:hint="CVC"
+                    android:inputType="numberPassword"
+                    android:maxLength="4"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:textColor="#17213A"
+                    android:textColorHint="#9AA5B5"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <!-- SECURITY -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔒"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Your card information is securely processed by Stripe"
+                    android:textColor="#7B8799"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Pay Button -->
+
+    <!-- =========================
+         PAY BUTTON
+         ========================= -->
+
     <Button
         android:id="@+id/btnPay"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="54dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="#1565C0"
         android:text="Pay Now"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:cornerRadius="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardPayment" />
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
 
     <TextView
         android:id="@+id/txtSecure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="🔒 Secure payment powered by Stripe"
-        android:textColor="#777777"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="Secure payment powered by Stripe"
+        android:textColor="#7B8799"
+        android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnPay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.dct3194.projekakhir.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,6 @@ import com.stripe.android.model.ConfirmPaymentIntentParams;
 import com.stripe.android.model.PaymentMethodCreateParams;
 import com.stripe.android.payments.paymentlauncher.PaymentLauncher;
 import com.stripe.android.payments.paymentlauncher.PaymentResult;
-import com.stripe.android.view.CardInputWidget;
 
 import org.json.JSONObject;
 
@@ -31,52 +31,61 @@ import okhttp3.Response;
 
 public class StripePaymentActivity extends AppCompatActivity {
 
+    // ==========================
+    // Views
+    // ==========================
+
     private TextView txtAmount;
     private Button btnPay;
-    private CardInputWidget cardInputWidget;
+
+    private EditText etCardHolder;
+    private EditText etCardNumber;
+    private EditText etExpiry;
+    private EditText etCvc;
+
+    // ==========================
+    // Payment
+    // ==========================
 
     private int totalPrice;
+
+    // ==========================
+    // Stripe
+    // ==========================
 
     private PaymentLauncher paymentLauncher;
 
     private static final String FUNCTION_URL =
             "https://us-central1-encikaircond.cloudfunctions.net/createPaymentIntent";
 
+    // ==========================
+    // ON CREATE
+    // ==========================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_stripe_payment);
-
-        // ==========================
-        // Initialize Views
-        // ==========================
 
         txtAmount = findViewById(R.id.txtAmount);
         btnPay = findViewById(R.id.btnPay);
-        cardInputWidget = findViewById(R.id.cardInputWidget);
 
-        // ==========================
-        // Get Total Price
-        // ==========================
+        etCardHolder = findViewById(R.id.etCardHolder);
+        etCardNumber = findViewById(R.id.etCardNumber);
+        etExpiry = findViewById(R.id.etExpiry);
+        etCvc = findViewById(R.id.etCvc);
 
         totalPrice = getIntent().getIntExtra("totalPrice", 0);
-
         txtAmount.setText("Total : RM " + totalPrice);
 
-        // ==========================
-        // Initialize Stripe
-        // ==========================
-
+        // Init Stripe
         PaymentConfiguration.init(
                 getApplicationContext(),
                 StripeConfig.PUBLISHABLE_KEY
         );
 
         PaymentConfiguration paymentConfiguration =
-                PaymentConfiguration.getInstance(
-                        getApplicationContext()
-                );
+                PaymentConfiguration.getInstance(getApplicationContext());
 
         paymentLauncher = PaymentLauncher.Companion.create(
                 this,
@@ -85,38 +94,62 @@ public class StripePaymentActivity extends AppCompatActivity {
                 this::onPaymentResult
         );
 
-        // ==========================
-        // Pay Button
-        // ==========================
-
         btnPay.setOnClickListener(v -> {
 
             if (totalPrice <= 0) {
-
-                Toast.makeText(
-                        StripePaymentActivity.this,
-                        "Invalid payment amount",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(StripePaymentActivity.this, "Invalid payment amount", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            PaymentMethodCreateParams paymentMethodParams =
-                    cardInputWidget.getPaymentMethodCreateParams();
+            String cardNumber = etCardNumber.getText().toString().replaceAll("\\s+", "").trim();
+            String expVal = etExpiry.getText().toString().trim();
+            String cvc = etCvc.getText().toString().trim();
 
-            if (paymentMethodParams == null) {
-
-                Toast.makeText(
-                        StripePaymentActivity.this,
-                        "Please enter valid card details",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+            if (cardNumber.isEmpty() || cardNumber.length() < 13) {
+                Toast.makeText(StripePaymentActivity.this, "Please enter a valid card number", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            createPaymentIntent(paymentMethodParams);
+            if (expVal.isEmpty() || !expVal.contains("/")) {
+                Toast.makeText(StripePaymentActivity.this, "Please enter expiration date (MM/YY)", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (cvc.isEmpty() || cvc.length() < 3) {
+                Toast.makeText(StripePaymentActivity.this, "Please enter a valid CVC", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String[] expParts = expVal.split("/");
+            if (expParts.length != 2) {
+                Toast.makeText(StripePaymentActivity.this, "Invalid expiration date format", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int expMonth;
+            int expYear;
+
+            try {
+                expMonth = Integer.parseInt(expParts[0].trim());
+                String yearStr = expParts[1].trim();
+                expYear = Integer.parseInt(yearStr.length() == 2 ? "20" + yearStr : yearStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(StripePaymentActivity.this, "Invalid expiration month or year", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Cipta parameter Stripe secara manual daripada EditText
+            // ✅ KOD YANG BETUL (Hanya 1 line params):
+            PaymentMethodCreateParams.Card cardParams = new PaymentMethodCreateParams.Card.Builder()
+                    .setNumber(cardNumber)
+                    .setExpiryMonth(expMonth)
+                    .setExpiryYear(expYear)
+                    .setCvc(cvc)
+                    .build();
+
+            PaymentMethodCreateParams params = PaymentMethodCreateParams.create(cardParams);
+
+            createPaymentIntent(params);
         });
     }
 
@@ -124,31 +157,19 @@ public class StripePaymentActivity extends AppCompatActivity {
     // CREATE PAYMENT INTENT
     // =========================================================
 
-    private void createPaymentIntent(
-            PaymentMethodCreateParams paymentMethodParams) {
-
+    private void createPaymentIntent(PaymentMethodCreateParams paymentMethodParams) {
         btnPay.setEnabled(false);
         btnPay.setText("Processing...");
 
         OkHttpClient client = new OkHttpClient();
-
         JSONObject json = new JSONObject();
 
         try {
-
             json.put("amount", totalPrice);
             json.put("currency", "myr");
-
         } catch (Exception e) {
-
             resetPayButton();
-
-            Toast.makeText(
-                    StripePaymentActivity.this,
-                    "Unable to create payment request",
-                    Toast.LENGTH_LONG
-            ).show();
-
+            Toast.makeText(StripePaymentActivity.this, "Unable to create payment request", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -160,129 +181,47 @@ public class StripePaymentActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(FUNCTION_URL)
                 .post(body)
-                .addHeader(
-                        "Content-Type",
-                        "application/json"
-                )
+                .addHeader("Content-Type", "application/json")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
-
             @Override
-            public void onFailure(
-                    Call call,
-                    IOException e) {
-
+            public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {
-
                     resetPayButton();
-
-                    Toast.makeText(
-                            StripePaymentActivity.this,
-                            "Connection failed. Please try again.",
-                            Toast.LENGTH_LONG
-                    ).show();
+                    Toast.makeText(StripePaymentActivity.this, "Connection failed. Please try again.", Toast.LENGTH_LONG).show();
                 });
             }
 
             @Override
-            public void onResponse(
-                    Call call,
-                    Response response)
-                    throws IOException {
-
-                String responseBody =
-                        response.body() != null
-                                ? response.body().string()
-                                : "";
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body() != null ? response.body().string() : "";
 
                 if (!response.isSuccessful()) {
-
                     runOnUiThread(() -> {
-
                         resetPayButton();
-
-                        try {
-
-                            JSONObject errorJson =
-                                    new JSONObject(responseBody);
-
-                            String errorMessage =
-                                    errorJson.optString(
-                                            "error",
-                                            "Payment setup failed"
-                                    );
-
-                            Toast.makeText(
-                                    StripePaymentActivity.this,
-                                    errorMessage,
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                        } catch (Exception e) {
-
-                            Toast.makeText(
-                                    StripePaymentActivity.this,
-                                    "Payment setup failed",
-                                    Toast.LENGTH_LONG
-                            ).show();
-                        }
+                        Toast.makeText(StripePaymentActivity.this, "Payment setup failed", Toast.LENGTH_LONG).show();
                     });
-
                     return;
                 }
 
                 runOnUiThread(() -> {
-
                     try {
-
-                        JSONObject result =
-                                new JSONObject(responseBody);
-
-                        boolean success =
-                                result.optBoolean(
-                                        "success",
-                                        false
-                                );
+                        JSONObject result = new JSONObject(responseBody);
+                        boolean success = result.optBoolean("success", false);
 
                         if (!success) {
-
                             resetPayButton();
-
-                            String errorMessage =
-                                    result.optString(
-                                            "error",
-                                            "Payment setup failed"
-                                    );
-
-                            Toast.makeText(
-                                    StripePaymentActivity.this,
-                                    errorMessage,
-                                    Toast.LENGTH_LONG
-                            ).show();
-
+                            Toast.makeText(StripePaymentActivity.this, "Payment failed", Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        String clientSecret =
-                                result.getString(
-                                        "clientSecret"
-                                );
-
-                        confirmPayment(
-                                clientSecret,
-                                paymentMethodParams
-                        );
+                        String clientSecret = result.getString("clientSecret");
+                        confirmPayment(clientSecret, paymentMethodParams);
 
                     } catch (Exception e) {
-
                         resetPayButton();
-
-                        Toast.makeText(
-                                StripePaymentActivity.this,
-                                "Invalid payment response",
-                                Toast.LENGTH_LONG
-                        ).show();
+                        Toast.makeText(StripePaymentActivity.this, "Invalid payment response", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -293,22 +232,14 @@ public class StripePaymentActivity extends AppCompatActivity {
     // CONFIRM PAYMENT
     // =========================================================
 
-    private void confirmPayment(
-            String clientSecret,
-            PaymentMethodCreateParams paymentMethodParams) {
+    private void confirmPayment(String clientSecret, PaymentMethodCreateParams paymentMethodParams) {
+        Toast.makeText(StripePaymentActivity.this, "Processing payment...", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(
-                StripePaymentActivity.this,
-                "Processing payment...",
-                Toast.LENGTH_SHORT
-        ).show();
-
-        ConfirmPaymentIntentParams confirmParams =
-                ConfirmPaymentIntentParams
-                        .createWithPaymentMethodCreateParams(
-                                paymentMethodParams,
-                                clientSecret
-                        );
+        ConfirmPaymentIntentParams confirmParams = ConfirmPaymentIntentParams
+                .createWithPaymentMethodCreateParams(
+                        paymentMethodParams,
+                        clientSecret
+                );
 
         paymentLauncher.confirm(confirmParams);
     }
@@ -317,188 +248,36 @@ public class StripePaymentActivity extends AppCompatActivity {
     // STRIPE PAYMENT RESULT
     // =========================================================
 
-    private void onPaymentResult(
-            PaymentResult paymentResult) {
-
+    private void onPaymentResult(PaymentResult paymentResult) {
         if (paymentResult instanceof PaymentResult.Completed) {
-
             runOnUiThread(() -> {
-
-                Toast.makeText(
-                        StripePaymentActivity.this,
-                        "Payment successful!",
-                        Toast.LENGTH_LONG
-                ).show();
-
+                Toast.makeText(StripePaymentActivity.this, "Payment successful!", Toast.LENGTH_LONG).show();
                 openPaymentSuccess();
             });
-
         } else if (paymentResult instanceof PaymentResult.Canceled) {
-
             runOnUiThread(() -> {
-
                 resetPayButton();
-
-                Toast.makeText(
-                        StripePaymentActivity.this,
-                        "Payment was cancelled.",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Toast.makeText(StripePaymentActivity.this, "Payment was cancelled.", Toast.LENGTH_SHORT).show();
             });
-
         } else if (paymentResult instanceof PaymentResult.Failed) {
-
-            PaymentResult.Failed failed =
-                    (PaymentResult.Failed) paymentResult;
-
+            PaymentResult.Failed failed = (PaymentResult.Failed) paymentResult;
             runOnUiThread(() -> {
-
                 resetPayButton();
-
-                String message =
-                        failed.getThrowable() != null
-                                ? failed.getThrowable().getMessage()
-                                : null;
-
-                if (message == null ||
-                        message.trim().isEmpty()) {
-
-                    message =
-                            "Payment failed. Please try again.";
-                }
-
-                Toast.makeText(
-                        StripePaymentActivity.this,
-                        message,
-                        Toast.LENGTH_LONG
-                ).show();
+                String message = failed.getThrowable() != null
+                        ? failed.getThrowable().getMessage()
+                        : "Payment failed. Please try again.";
+                Toast.makeText(StripePaymentActivity.this, message, Toast.LENGTH_LONG).show();
             });
         }
     }
 
-    // =========================================================
-    // PAYMENT SUCCESS
-    // =========================================================
-
-    private void openPaymentSuccess() {
-
-        Intent previousIntent = getIntent();
-
-        Intent intent = new Intent(
-                StripePaymentActivity.this,
-                PaymentSuccessActivity.class
-        );
-
-        // ==========================
-        // Booking Data
-        // ==========================
-
-        intent.putExtra(
-                "aircond",
-                previousIntent.getSerializableExtra("aircond")
-        );
-
-        intent.putExtra(
-                "model",
-                previousIntent.getStringExtra("model")
-        );
-
-        intent.putExtra(
-                "hp",
-                previousIntent.getStringExtra("hp")
-        );
-
-        intent.putExtra(
-                "package",
-                previousIntent.getStringExtra("package")
-        );
-
-        intent.putExtra(
-                "price",
-                previousIntent.getIntExtra("price", 0)
-        );
-
-        intent.putExtra(
-                "totalPrice",
-                totalPrice
-        );
-
-        intent.putExtra(
-                "installation",
-                previousIntent.getBooleanExtra(
-                        "installation",
-                        false
-                )
-        );
-
-        intent.putExtra(
-                "date",
-                previousIntent.getStringExtra("date")
-        );
-
-        intent.putExtra(
-                "time",
-                previousIntent.getStringExtra("time")
-        );
-
-        // ==========================
-        // Customer Information
-        // ==========================
-
-        intent.putExtra(
-                "fullName",
-                previousIntent.getStringExtra("fullName")
-        );
-
-        intent.putExtra(
-                "phone",
-                previousIntent.getStringExtra("phone")
-        );
-
-        intent.putExtra(
-                "address",
-                previousIntent.getStringExtra("address")
-        );
-
-        intent.putExtra(
-                "city",
-                previousIntent.getStringExtra("city")
-        );
-
-        intent.putExtra(
-                "postcode",
-                previousIntent.getStringExtra("postcode")
-        );
-
-        intent.putExtra(
-                "state",
-                previousIntent.getStringExtra("state")
-        );
-
-        // ==========================
-        // Payment
-        // ==========================
-
-        intent.putExtra(
-                "paymentMethod",
-                "Stripe"
-        );
-
-        startActivity(intent);
-
-        finish();
+    private void resetPayButton() {
+        btnPay.setEnabled(true);
+        btnPay.setText("Pay Now");
     }
 
-    // =========================================================
-    // RESET BUTTON
-    // =========================================================
-
-    private void resetPayButton() {
-
-        runOnUiThread(() -> {
-
-            btnPay.setEnabled(true);
-            btnPay.setText("Pay Now");
-        });
+    private void openPaymentSuccess() {
+        startActivity(new Intent(StripePaymentActivity.this, PaymentSuccessActivity.class));
+        finish();
     }
 }

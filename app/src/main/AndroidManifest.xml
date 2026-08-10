@@ -45,6 +45,11 @@
             android:name=".activities.PaymentMethodActivity"
             android:exported="false" />
 
+        <!-- Stripe Payment -->
+        <activity
+            android:name=".activities.StripePaymentActivity"
+            android:exported="false" />
+
         <!-- Add Payment -->
         <activity
             android:name=".activities.AddPaymentActivity"
