@@ -45,6 +45,12 @@ public class PaymentSuccessActivity extends AppCompatActivity {
     // Payment
     private String paymentMethod;
 
+    // Maintenance
+    private boolean maintenance = false;
+    private String maintenanceType;
+    private String maintenanceService;
+    private String maintenancePrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +100,15 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         state = previousIntent.getStringExtra("state");
 
         paymentMethod = previousIntent.getStringExtra("paymentMethod");
+
+        // Maintenance Data
+        maintenance = previousIntent.getBooleanExtra(
+                "maintenance",
+                false
+        );
+        maintenanceType = previousIntent.getStringExtra("type");
+        maintenanceService = previousIntent.getStringExtra("service");
+        maintenancePrice = previousIntent.getStringExtra("maintenancePrice");
 
         // ==========================
         // View Order

@@ -53,10 +53,61 @@ public class MaintenanceSummaryActivity extends AppCompatActivity {
         }
 
         btnBack.setOnClickListener(v -> finish());
-        
+
         btnConfirm.setOnClickListener(v -> {
-            Intent nextIntent = new Intent(this, PaymentMethodActivity.class);
+
+            Intent nextIntent = new Intent(
+                    MaintenanceSummaryActivity.this,
+                    PaymentMethodActivity.class
+            );
+
+
+            // Maintenance Data
+            nextIntent.putExtra(
+                    "maintenance",
+                    true
+            );
+
+
+            nextIntent.putExtra(
+                    "hp",
+                    getIntent().getStringExtra("hp")
+            );
+
+
+            nextIntent.putExtra(
+                    "type",
+                    getIntent().getStringExtra("type")
+            );
+
+
+            nextIntent.putExtra(
+                    "service",
+                    getIntent().getStringExtra("service")
+            );
+
+
+            nextIntent.putExtra(
+                    "price",
+                    getIntent().getStringExtra("price")
+            );
+
+
+            // Booking
+            nextIntent.putExtra(
+                    "date",
+                    getIntent().getStringExtra("date")
+            );
+
+
+            nextIntent.putExtra(
+                    "time",
+                    getIntent().getStringExtra("time")
+            );
+
+
             startActivity(nextIntent);
+
         });
     }
 

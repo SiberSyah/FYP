@@ -52,6 +52,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private String selectedDate;
     private String selectedTime;
 
+    // Maintenance
+    private boolean maintenance = false;
+    private String maintenanceType;
+    private String maintenanceService;
+    private String maintenancePrice;
+
     // Customer
     private String customerName;
     private String customerPhone;
@@ -110,6 +116,16 @@ public class PaymentMethodActivity extends AppCompatActivity {
         customerName = previousIntent.getStringExtra("customerName");
         customerPhone = previousIntent.getStringExtra("customerPhone");
         customerAddress = previousIntent.getStringExtra("customerAddress");
+
+        // Maintenance Data
+        maintenance = previousIntent.getBooleanExtra(
+                "maintenance",
+                false
+        );
+
+        maintenanceType = previousIntent.getStringExtra("type");
+        maintenanceService = previousIntent.getStringExtra("service");
+        maintenancePrice = previousIntent.getStringExtra("price");
 
         // ==========================
         // Payment Selection
@@ -191,6 +207,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
                 intent.putExtra("date", selectedDate);
                 intent.putExtra("time", selectedTime);
 
+                // Maintenance
+                intent.putExtra("maintenance", maintenance);
+                intent.putExtra("type", maintenanceType);
+                intent.putExtra("service", maintenanceService);
+                intent.putExtra("maintenancePrice", maintenancePrice);
+
                 // Payment
                 intent.putExtra("paymentMethod", paymentMethod);
 
@@ -223,6 +245,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
             intent.putExtra("installation", installation);
             intent.putExtra("date", selectedDate);
             intent.putExtra("time", selectedTime);
+
+            // Maintenance
+            intent.putExtra("maintenance", maintenance);
+            intent.putExtra("type", maintenanceType);
+            intent.putExtra("service", maintenanceService);
+            intent.putExtra("maintenancePrice", maintenancePrice);
 
             // Payment
             intent.putExtra("paymentMethod", paymentMethod);

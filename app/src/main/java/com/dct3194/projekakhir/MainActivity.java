@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.dct3194.projekakhir.fragments.HomeFragment;
 import com.dct3194.projekakhir.fragments.OrdersFragment;
 import com.dct3194.projekakhir.fragments.ProfileFragment;
+import com.dct3194.projekakhir.fragments.SelectDateTimeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,18 +34,57 @@ public class MainActivity extends AppCompatActivity {
         iconOrders = findViewById(R.id.iconOrders);
 
         String page = getIntent().getStringExtra("page");
+        String openFragment = getIntent().getStringExtra("openFragment");
 
-        if ("profile".equals(page)) {
+        if ("maintenanceDate".equals(openFragment)) {
+
+            SelectDateTimeFragment fragment = new SelectDateTimeFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("mode", "MAINTENANCE");
+
+            bundle.putString(
+                    "hp",
+                    getIntent().getStringExtra("hp")
+            );
+
+            bundle.putString(
+                    "type",
+                    getIntent().getStringExtra("type")
+            );
+
+            bundle.putString(
+                    "service",
+                    getIntent().getStringExtra("service")
+            );
+
+            bundle.putString(
+                    "price",
+                    getIntent().getStringExtra("price")
+            );
+
+            fragment.setArguments(bundle);
+
+            loadFragment(fragment);
+
+            // Set icon Home aktif supaya warna biru konsisten
+            selectHome();
+
+        } else if ("profile".equals(page)) {
+
             loadFragment(new ProfileFragment());
             selectProfile();
 
         } else if ("orders".equals(page)) {
+
             loadFragment(new OrdersFragment());
             selectOrders();
 
         } else {
+
             loadFragment(new HomeFragment());
             selectHome();
+
         }
 
         navProfile.setOnClickListener(v -> {

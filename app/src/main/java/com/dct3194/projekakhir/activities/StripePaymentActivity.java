@@ -49,6 +49,9 @@ public class StripePaymentActivity extends AppCompatActivity {
 
     private int totalPrice;
 
+    private boolean maintenance = false;
+    private String maintenancePrice = "";
+
     // ==========================
     // Stripe
     // ==========================
@@ -75,8 +78,38 @@ public class StripePaymentActivity extends AppCompatActivity {
         etExpiry = findViewById(R.id.etExpiry);
         etCvc = findViewById(R.id.etCvc);
 
-        totalPrice = getIntent().getIntExtra("totalPrice", 0);
-        txtAmount.setText("Total : RM " + totalPrice);
+        maintenance = getIntent().getBooleanExtra(
+                "maintenance",
+                false
+        );
+
+        if (maintenance) {
+
+            String priceText = getIntent()
+                    .getStringExtra("maintenancePrice");
+
+            maintenancePrice = priceText;
+
+            try {
+                totalPrice = (int) Double.parseDouble(
+                        priceText.replace("RM", "")
+                                .trim()
+                );
+
+            } catch (Exception e) {
+                totalPrice = 0;
+            }
+
+        } else {
+
+            totalPrice = getIntent()
+                    .getIntExtra("totalPrice", 0);
+
+        }
+
+        txtAmount.setText(
+                "Total : RM " + totalPrice
+        );
 
         // Init Stripe
         PaymentConfiguration.init(
@@ -139,7 +172,6 @@ public class StripePaymentActivity extends AppCompatActivity {
             }
 
             // Cipta parameter Stripe secara manual daripada EditText
-            // ✅ KOD YANG BETUL (Hanya 1 line params):
             PaymentMethodCreateParams.Card cardParams = new PaymentMethodCreateParams.Card.Builder()
                     .setNumber(cardNumber)
                     .setExpiryMonth(expMonth)
@@ -277,7 +309,76 @@ public class StripePaymentActivity extends AppCompatActivity {
     }
 
     private void openPaymentSuccess() {
-        startActivity(new Intent(StripePaymentActivity.this, PaymentSuccessActivity.class));
+
+        Intent intent = new Intent(
+                StripePaymentActivity.this,
+                PaymentSuccessActivity.class
+        );
+
+        // Payment Type
+        intent.putExtra(
+                "maintenance",
+                maintenance
+        );
+
+        // Maintenance Data
+        intent.putExtra(
+                "maintenancePrice",
+                maintenancePrice
+        );
+
+        intent.putExtra(
+                "type",
+                getIntent().getStringExtra("type")
+        );
+
+        intent.putExtra(
+                "service",
+                getIntent().getStringExtra("service")
+        );
+
+        // Buy Aircond Data
+        intent.putExtra(
+                "aircond",
+                getIntent().getSerializableExtra("aircond")
+        );
+
+        intent.putExtra(
+                "model",
+                getIntent().getStringExtra("model")
+        );
+
+        intent.putExtra(
+                "hp",
+                getIntent().getStringExtra("hp")
+        );
+
+        intent.putExtra(
+                "package",
+                getIntent().getStringExtra("package")
+        );
+
+        intent.putExtra(
+                "totalPrice",
+                totalPrice
+        );
+
+        intent.putExtra(
+                "date",
+                getIntent().getStringExtra("date")
+        );
+
+        intent.putExtra(
+                "time",
+                getIntent().getStringExtra("time")
+        );
+
+        intent.putExtra(
+                "paymentMethod",
+                getIntent().getStringExtra("paymentMethod")
+        );
+
+        startActivity(intent);
         finish();
     }
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,11 @@ import androidx.fragment.app.Fragment;
 
 import com.dct3194.projekakhir.R;
 import com.dct3194.projekakhir.activities.AddAddressActivity;
+import com.dct3194.projekakhir.activities.MaintenanceSummaryActivity;
 import com.dct3194.projekakhir.models.Aircond;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 public class SelectDateTimeFragment extends Fragment {
 
@@ -38,6 +43,8 @@ public class SelectDateTimeFragment extends Fragment {
 
     private Button btnContinue;
 
+    private CalendarView calendarView;
+
     private TextView txtSummaryName;
     private TextView txtSummaryBrand;
     private TextView txtSummaryHP;
@@ -55,6 +62,12 @@ public class SelectDateTimeFragment extends Fragment {
 
     private String selectedDate = "";
     private String selectedTime = "";
+
+    // Variable mode & maintenance data
+    private String mode = "BUY";
+    private String maintenanceType = "";
+    private String maintenanceService = "";
+    private String maintenancePrice = "";
 
     public SelectDateTimeFragment() {
     }
@@ -84,12 +97,20 @@ public class SelectDateTimeFragment extends Fragment {
 
         btnContinue = view.findViewById(R.id.btnContinue);
 
+        calendarView = view.findViewById(R.id.calendarView);
+
         txtSummaryName = view.findViewById(R.id.txtSummaryName);
         txtSummaryBrand = view.findViewById(R.id.txtSummaryBrand);
         txtSummaryHP = view.findViewById(R.id.txtSummaryHP);
         txtSummaryInstall = view.findViewById(R.id.txtSummaryInstall);
 
         if (getArguments() != null) {
+
+            // Retrieve mode and maintenance arguments
+            mode = getArguments().getString("mode", "BUY");
+            maintenanceType = getArguments().getString("type", "");
+            maintenanceService = getArguments().getString("service", "");
+            maintenancePrice = getArguments().getString("price", "");
 
             aircond = (Aircond) getArguments().getSerializable("aircond");
             installation = getArguments().getBoolean("installation", false);
@@ -100,19 +121,82 @@ public class SelectDateTimeFragment extends Fragment {
             selectedPrice = getArguments().getInt("price", 0);
             totalPrice = getArguments().getInt("totalPrice", 0);
 
-            if (aircond != null) {
-                imgSummaryAircond.setImageResource(aircond.getImage());
-                txtSummaryName.setText(aircond.getName());
-                txtSummaryBrand.setText("Brand : " + aircond.getBrand());
-                txtSummaryHP.setText("HP : " + selectedHP);
-            }
+            // Dynamic Summary View Based on Mode
+            if (mode.equals("MAINTENANCE")) {
 
-            txtSummaryInstall.setText(
-                    installation ?
-                            "Installation : Yes"
-                            :
-                            "Installation : No");
+                txtSummaryName.setText(maintenanceService);
+
+                txtSummaryBrand.setText(
+                        "Type : " + maintenanceType
+                );
+
+                txtSummaryHP.setText(
+                        "HP : " + selectedHP
+                );
+
+                txtSummaryInstall.setText(
+                        "Price : " + maintenancePrice
+                );
+
+                imgSummaryAircond.setImageResource(
+                        R.drawable.ic_maintenance
+                );
+
+            } else {
+
+                if (aircond != null) {
+
+                    imgSummaryAircond.setImageResource(
+                            aircond.getImage()
+                    );
+
+                    txtSummaryName.setText(
+                            aircond.getName()
+                    );
+
+                    txtSummaryBrand.setText(
+                            "Brand : " + aircond.getBrand()
+                    );
+
+                    txtSummaryHP.setText(
+                            "HP : " + selectedHP
+                    );
+                }
+
+                txtSummaryInstall.setText(
+                        installation ?
+                                "Installation : Yes"
+                                :
+                                "Installation : No"
+                );
+            }
         }
+
+        // =========================
+        // Calendar Date
+        // =========================
+
+        Calendar calendar = Calendar.getInstance();
+
+        selectedDate = String.format(
+                Locale.getDefault(),
+                "%02d/%02d/%d",
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.YEAR)
+        );
+
+        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+
+            selectedDate = String.format(
+                    Locale.getDefault(),
+                    "%02d/%02d/%d",
+                    dayOfMonth,
+                    month + 1,
+                    year
+            );
+
+        });
 
         // =========================
         // Time Slot
@@ -169,22 +253,44 @@ public class SelectDateTimeFragment extends Fragment {
                 return;
             }
 
-            // Pindah ke skrin AddAddressActivity
-            Intent intent = new Intent(getActivity(), AddAddressActivity.class);
+            if (mode.equals("MAINTENANCE")) {
 
-            // Bawa sekali semua maklumat tempahan ke skrin alamat
-            intent.putExtra("aircond", aircond);
-            intent.putExtra("installation", installation);
-            intent.putExtra("hp", selectedHP);
-            intent.putExtra("date", selectedDate);
-            intent.putExtra("time", selectedTime);
+                Intent intent = new Intent(
+                        getActivity(),
+                        MaintenanceSummaryActivity.class
+                );
 
-            intent.putExtra("model", selectedModel);
-            intent.putExtra("package", selectedPackage);
-            intent.putExtra("price", selectedPrice);
-            intent.putExtra("totalPrice", totalPrice);
+                intent.putExtra("hp", selectedHP);
+                intent.putExtra("type", maintenanceType);
+                intent.putExtra("service", maintenanceService);
+                intent.putExtra("price", maintenancePrice);
 
-            startActivity(intent);
+                intent.putExtra("date", selectedDate);
+                intent.putExtra("time", selectedTime);
+
+                startActivity(intent);
+
+            } else {
+
+                Intent intent = new Intent(
+                        getActivity(),
+                        AddAddressActivity.class
+                );
+
+                intent.putExtra("aircond", aircond);
+                intent.putExtra("installation", installation);
+                intent.putExtra("hp", selectedHP);
+
+                intent.putExtra("date", selectedDate);
+                intent.putExtra("time", selectedTime);
+
+                intent.putExtra("model", selectedModel);
+                intent.putExtra("package", selectedPackage);
+                intent.putExtra("price", selectedPrice);
+                intent.putExtra("totalPrice", totalPrice);
+
+                startActivity(intent);
+            }
         });
 
         return view;
