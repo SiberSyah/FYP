@@ -240,22 +240,10 @@ public class AddAddressActivity extends AppCompatActivity {
             // Go To Summary
             // =========================
 
-            Intent intent;
-
-            if (maintenance) {
-
-                intent = new Intent(
-                        AddAddressActivity.this,
-                        PaymentMethodActivity.class
-                );
-
-            } else {
-
-                intent = new Intent(
-                        AddAddressActivity.this,
-                        BuySummaryActivity.class
-                );
-            }
+            Intent intent = new Intent(
+                    AddAddressActivity.this,
+                    BuySummaryActivity.class
+            );
 
             // =========================
             // Maintenance Data

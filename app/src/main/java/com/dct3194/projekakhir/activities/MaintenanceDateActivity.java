@@ -118,46 +118,14 @@ public class MaintenanceDateActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent nextIntent = new Intent(
-                    this,
-                    AddAddressActivity.class
-            );
-
-            nextIntent.putExtra(
-                    "maintenance",
-                    true
-            );
-
-            nextIntent.putExtra(
-                    "hp",
-                    hp
-            );
-
-            nextIntent.putExtra(
-                    "type",
-                    type
-            );
-
-            nextIntent.putExtra(
-                    "service",
-                    service
-            );
-
-            nextIntent.putExtra(
-                    "price",
-                    price
-            );
-
-            nextIntent.putExtra(
-                    "date",
-                    selectedDate
-            );
-
-            nextIntent.putExtra(
-                    "time",
-                    selectedTime
-            );
-
+            Intent nextIntent = new Intent(this, AddAddressActivity.class);
+            nextIntent.putExtra("maintenance", true);
+            nextIntent.putExtra("hp", hp);
+            nextIntent.putExtra("type", type);
+            nextIntent.putExtra("service", service);
+            nextIntent.putExtra("price", price);
+            nextIntent.putExtra("date", selectedDate);
+            nextIntent.putExtra("time", selectedTime);
             startActivity(nextIntent);
         });
 
@@ -208,10 +176,6 @@ public class MaintenanceDateActivity extends AppCompatActivity {
         selectedBtn.setBackgroundResource(R.drawable.button_blue);
         selectedBtn.setTextColor(Color.WHITE);
     }
-
-    // =========================================================
-    // BOTTOM NAVIGATION ICON COLOR LOGIC
-    // =========================================================
 
     private void resetIcons() {
         if (btnNavProfile != null) {
