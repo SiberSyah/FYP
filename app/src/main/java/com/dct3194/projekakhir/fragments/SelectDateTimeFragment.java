@@ -427,8 +427,13 @@ public class SelectDateTimeFragment extends Fragment {
                 Intent intent =
                         new Intent(
                                 getActivity(),
-                                MaintenanceSummaryActivity.class
+                                AddAddressActivity.class
                         );
+
+                intent.putExtra(
+                        "maintenance",
+                        true
+                );
 
                 intent.putExtra(
                         "hp",

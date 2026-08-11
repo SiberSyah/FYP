@@ -111,10 +111,6 @@ public class AddAddressActivity extends AppCompatActivity {
         // =========================
         // Customer Information Page
         // =========================
-        // This page belongs to the
-        // buying flow, so Home is
-        // selected just like the
-        // other buying pages.
 
         selectHome();
 
@@ -250,7 +246,7 @@ public class AddAddressActivity extends AppCompatActivity {
 
                 intent = new Intent(
                         AddAddressActivity.this,
-                        MaintenanceSummaryActivity.class
+                        PaymentMethodActivity.class
                 );
 
             } else {
