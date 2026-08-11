@@ -224,11 +224,6 @@ public class SelectDateTimeFragment extends Fragment {
             if (mode.equals("BUY") &&
                     aircond != null) {
 
-                /*
-                 * Kalau totalPrice yang dihantar
-                 * adalah 0, kira semula di sini.
-                 */
-
                 if (totalPrice <= 0) {
 
                     if (selectedPrice > 0) {
@@ -366,44 +361,32 @@ public class SelectDateTimeFragment extends Fragment {
         // =========================
 
         btn8AM.setOnClickListener(v -> {
-
             selectedTime = "8:00 AM";
-
             selectTimeButton(btn8AM);
         });
 
         btn9AM.setOnClickListener(v -> {
-
             selectedTime = "9:00 AM";
-
             selectTimeButton(btn9AM);
         });
 
         btn11AM.setOnClickListener(v -> {
-
             selectedTime = "11:00 AM";
-
             selectTimeButton(btn11AM);
         });
 
         btn1PM.setOnClickListener(v -> {
-
             selectedTime = "1:00 PM";
-
             selectTimeButton(btn1PM);
         });
 
         btn2PM.setOnClickListener(v -> {
-
             selectedTime = "2:00 PM";
-
             selectTimeButton(btn2PM);
         });
 
         btn4PM.setOnClickListener(v -> {
-
             selectedTime = "4:00 PM";
-
             selectTimeButton(btn4PM);
         });
 
@@ -423,231 +406,50 @@ public class SelectDateTimeFragment extends Fragment {
 
         btnContinue.setOnClickListener(v -> {
 
-            // =========================
-            // Check Time
-            // =========================
-
             if (selectedTime.isEmpty()) {
-
-                Toast.makeText(
-                        getContext(),
-                        "Sila pilih masa perkhidmatan!",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(getContext(), "Sila pilih masa perkhidmatan!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // =========================
-            // Maintenance
-            // =========================
+            Intent intent = new Intent(getActivity(), AddAddressActivity.class);
 
             if (mode.equals("MAINTENANCE")) {
-
-                Intent intent =
-                        new Intent(
-                                getActivity(),
-                                AddAddressActivity.class
-                        );
-
-                intent.putExtra(
-                        "maintenance",
-                        true
-                );
-
-                intent.putExtra(
-                        "hp",
-                        selectedHP
-                );
-
-                intent.putExtra(
-                        "type",
-                        maintenanceType
-                );
-
-                intent.putExtra(
-                        "service",
-                        maintenanceService
-                );
-
-                intent.putExtra(
-                        "price",
-                        maintenancePrice
-                );
-
-                intent.putExtra(
-                        "date",
-                        selectedDate
-                );
-
-                intent.putExtra(
-                        "time",
-                        selectedTime
-                );
-
-                startActivity(intent);
-
+                intent.putExtra("maintenance", true);
+                intent.putExtra("hp", selectedHP);
+                intent.putExtra("type", maintenanceType);
+                intent.putExtra("service", maintenanceService);
+                intent.putExtra("price", maintenancePrice);
+                intent.putExtra("date", selectedDate);
+                intent.putExtra("time", selectedTime);
             } else {
-
-                // =========================
                 // BUY AIRCOND
-                // =========================
-
-                /*
-                 * Safety check sekali lagi.
-                 *
-                 * Kalau masih 0, kira semula
-                 * sebelum masuk Address.
-                 */
-
-                if (totalPrice <= 0 &&
-                        aircond != null) {
-
+                if (totalPrice <= 0 && aircond != null) {
                     if (selectedPrice <= 0) {
-
-                        if (selectedHP.equals(
-                                "1.5 HP")) {
-
-                            selectedPrice =
-                                    aircond.getPrice15HP();
-
-                        } else if (
-                                selectedHP.equals(
-                                        "2.0 HP")) {
-
-                            selectedPrice =
-                                    aircond.getPrice2HP();
-
-                        } else {
-
-                            selectedPrice =
-                                    aircond.getPrice1HP();
-                        }
+                        if (selectedHP.equals("1.5 HP")) selectedPrice = aircond.getPrice15HP();
+                        else if (selectedHP.equals("2.0 HP")) selectedPrice = aircond.getPrice2HP();
+                        else selectedPrice = aircond.getPrice1HP();
                     }
-
-                    totalPrice =
-                            selectedPrice;
-
-                    if (installation) {
-
-                        totalPrice +=
-                                aircond.getInstallationPrice();
-                    }
+                    totalPrice = selectedPrice;
+                    if (installation) totalPrice += aircond.getInstallationPrice();
                 }
 
-                // =========================
-                // Debug / Safety
-                // =========================
-
                 if (totalPrice <= 0) {
-
-                    Toast.makeText(
-                            requireContext(),
-                            "Unable to calculate aircond price.",
-                            Toast.LENGTH_LONG
-                    ).show();
-
+                    Toast.makeText(requireContext(), "Unable to calculate aircond price.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                Intent intent =
-                        new Intent(
-                                getActivity(),
-                                AddAddressActivity.class
-                        );
-
-                // =========================
-                // Aircond
-                // =========================
-
-                intent.putExtra(
-                        "aircond",
-                        aircond
-                );
-
-                // =========================
-                // Installation
-                // =========================
-
-                intent.putExtra(
-                        "installation",
-                        installation
-                );
-
-                // =========================
-                // HP
-                // =========================
-
-                intent.putExtra(
-                        "hp",
-                        selectedHP
-                );
-
-                // =========================
-                // Type
-                // =========================
-
-                intent.putExtra(
-                        "type",
-                        selectedType
-                );
-
-                // =========================
-                // Date
-                // =========================
-
-                intent.putExtra(
-                        "date",
-                        selectedDate
-                );
-
-                // =========================
-                // Time
-                // =========================
-
-                intent.putExtra(
-                        "time",
-                        selectedTime
-                );
-
-                // =========================
-                // Model
-                // =========================
-
-                intent.putExtra(
-                        "model",
-                        selectedModel
-                );
-
-                // =========================
-                // Package
-                // =========================
-
-                intent.putExtra(
-                        "package",
-                        selectedPackage
-                );
-
-                // =========================
-                // Price
-                // =========================
-
-                intent.putExtra(
-                        "price",
-                        selectedPrice
-                );
-
-                // =========================
-                // TOTAL PRICE
-                // =========================
-
-                intent.putExtra(
-                        "totalPrice",
-                        totalPrice
-                );
-
-                startActivity(intent);
+                intent.putExtra("aircond", aircond);
+                intent.putExtra("installation", installation);
+                intent.putExtra("hp", selectedHP);
+                intent.putExtra("type", selectedType);
+                intent.putExtra("date", selectedDate);
+                intent.putExtra("time", selectedTime);
+                intent.putExtra("model", selectedModel);
+                intent.putExtra("package", selectedPackage);
+                intent.putExtra("price", selectedPrice);
+                intent.putExtra("totalPrice", totalPrice);
             }
+            startActivity(intent);
         });
 
         return view;
