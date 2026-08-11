@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EncikAircond">
 
-        <!-- Main Activity (Temporary Launcher for Testing) -->
+
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,63 +26,72 @@
 
         </activity>
 
+
         <!-- Select Aircond -->
         <activity
             android:name=".activities.SelectAircondActivity"
             android:exported="false" />
 
-        <!-- Add Address -->
+
+        <!-- Add Address / Customer Information -->
         <activity
             android:name=".activities.AddAddressActivity"
             android:exported="false" />
 
-        <!-- Buy Summary -->
+
+        <!-- Buy Aircond Summary -->
         <activity
             android:name=".activities.BuySummaryActivity"
             android:exported="false" />
+
 
         <!-- Payment Method -->
         <activity
             android:name=".activities.PaymentMethodActivity"
             android:exported="false" />
 
+
         <!-- Stripe Payment -->
         <activity
             android:name=".activities.StripePaymentActivity"
             android:exported="false" />
+
 
         <!-- Add Payment -->
         <activity
             android:name=".activities.AddPaymentActivity"
             android:exported="false" />
 
+
         <!-- Payment Success -->
         <activity
             android:name=".activities.PaymentSuccessActivity"
             android:exported="false" />
 
+
         <!-- Maintenance Flow -->
         <activity
             android:name=".activities.MaintenanceActivity"
             android:exported="false" />
+
         <activity
             android:name=".activities.MaintenanceDateActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.MaintenanceSummaryActivity"
-            android:exported="false" />
+
 
         <!-- Order Flow -->
         <activity
             android:name=".activities.OrderStatusActivity"
             android:exported="false" />
 
+
         <!-- Address Management -->
         <activity
             android:name=".activities.AddressActivity"
             android:exported="false" />
 
-        <!-- Auth and Others -->
+
+        <!-- Authentication -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false" />
@@ -93,6 +103,7 @@
         <activity
             android:name=".activities.WelcomeActivity"
             android:exported="false" />
+
 
     </application>
 
