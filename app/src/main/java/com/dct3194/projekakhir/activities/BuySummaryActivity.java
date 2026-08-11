@@ -157,6 +157,9 @@ public class BuySummaryActivity extends AppCompatActivity {
         btnPayNow =
                 findViewById(R.id.btnPayNow);
 
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
         // =========================
         // Bottom Navigation
         // =========================
