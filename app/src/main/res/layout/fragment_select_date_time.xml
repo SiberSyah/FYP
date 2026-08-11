@@ -108,6 +108,8 @@
                         android:layout_height="44dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:clickable="true"
                         android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
@@ -116,19 +118,21 @@
                         android:textStyle="bold"
                         android:textAllCaps="false"/>
 
-
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn9AM"
                         android:layout_width="0dp"
                         android:layout_height="44dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
-                        android:background="@drawable/button_blue"
-                        android:text="9:00 AM"
-                        android:textAllCaps="false"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
-                        android:textColor="@android:color/white"/>
+                        android:text="9:00 AM"
+                        android:textColor="#3158B8"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"/>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn11AM"
@@ -136,10 +140,14 @@
                         android:layout_height="44dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
-                        android:background="@drawable/button_outline"
                         android:text="11:00 AM"
+                        android:textColor="#3158B8"
+                        android:textStyle="bold"
                         android:textAllCaps="false"/>
 
                 </LinearLayout>
@@ -159,10 +167,14 @@
                         android:layout_height="44dp"
                         android:layout_weight="1"
                         android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
-                        android:background="@drawable/button_outline"
                         android:text="1:00 PM"
+                        android:textColor="#3158B8"
+                        android:textStyle="bold"
                         android:textAllCaps="false"/>
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -170,11 +182,15 @@
                         android:layout_width="0dp"
                         android:layout_height="44dp"
                         android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
-                        android:layout_margin="6dp"
-                        android:background="@drawable/button_outline"
                         android:text="2:00 PM"
+                        android:textColor="#3158B8"
+                        android:textStyle="bold"
                         android:textAllCaps="false"/>
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -182,11 +198,15 @@
                         android:layout_width="0dp"
                         android:layout_height="44dp"
                         android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:enabled="true"
+                        android:clickable="true"
+                        android:background="@drawable/button_outline"
                         android:backgroundTint="@null"
                         android:stateListAnimator="@null"
-                        android:layout_margin="6dp"
-                        android:background="@drawable/button_outline"
                         android:text="4:00 PM"
+                        android:textColor="#3158B8"
+                        android:textStyle="bold"
                         android:textAllCaps="false"/>
 
                 </LinearLayout>
@@ -281,8 +301,6 @@
                             android:layout_marginTop="4dp"
                             android:text="Installation : Yes"
                             android:textColor="#666666"/>
-
-
 
                     </LinearLayout>
 

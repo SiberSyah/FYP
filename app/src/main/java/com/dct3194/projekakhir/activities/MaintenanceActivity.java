@@ -81,16 +81,35 @@ public class MaintenanceActivity extends AppCompatActivity {
                 return;
             }
 
-            // Open MaintenanceDateActivity
             Intent intent = new Intent(
                     MaintenanceActivity.this,
-                    MaintenanceDateActivity.class
+                    MainActivity.class
             );
 
-            intent.putExtra("hp", selectedHP);
-            intent.putExtra("type", selectedType);
-            intent.putExtra("service", selectedService);
-            intent.putExtra("price", tvPriceValue.getText().toString());
+            intent.putExtra(
+                    "openFragment",
+                    "maintenanceDate"
+            );
+
+            intent.putExtra(
+                    "hp",
+                    selectedHP
+            );
+
+            intent.putExtra(
+                    "type",
+                    selectedType
+            );
+
+            intent.putExtra(
+                    "service",
+                    selectedService
+            );
+
+            intent.putExtra(
+                    "price",
+                    tvPriceValue.getText().toString()
+            );
 
             startActivity(intent);
         });

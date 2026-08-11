@@ -106,6 +106,26 @@ public class SelectDateTimeFragment extends Fragment {
         btn2PM = view.findViewById(R.id.btn2PM);
         btn4PM = view.findViewById(R.id.btn4PM);
 
+        // =========================
+        // INITIALIZE TIME SLOTS
+        // =========================
+
+        Button[] slots = {
+                btn8AM,
+                btn9AM,
+                btn11AM,
+                btn1PM,
+                btn2PM,
+                btn4PM
+        };
+
+        for (Button btn : slots) {
+            btn.setEnabled(true);
+            btn.setAlpha(1f);
+            btn.setTextColor(Color.parseColor("#3158B8"));
+            btn.setBackgroundResource(R.drawable.button_outline);
+        }
+
         btnContinue = view.findViewById(R.id.btnContinue);
 
         calendarView = view.findViewById(R.id.calendarView);
