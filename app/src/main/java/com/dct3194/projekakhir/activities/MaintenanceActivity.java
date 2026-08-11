@@ -81,12 +81,14 @@ public class MaintenanceActivity extends AppCompatActivity {
                 return;
             }
 
-            // Open MaintenanceDateActivity
+            // Open MainActivity with SelectDateTimeFragment in MAINTENANCE mode
             Intent intent = new Intent(
                     MaintenanceActivity.this,
-                    MaintenanceDateActivity.class
+                    MainActivity.class
             );
 
+            intent.putExtra("openFragment", "maintenanceDate");
+            intent.putExtra("mode", "MAINTENANCE");
             intent.putExtra("hp", selectedHP);
             intent.putExtra("type", selectedType);
             intent.putExtra("service", selectedService);

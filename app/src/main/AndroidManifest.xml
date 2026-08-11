@@ -56,9 +56,6 @@
         <activity
             android:name=".activities.MaintenanceActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.MaintenanceDateActivity"
-            android:exported="false" />
 
         <!-- Order Flow -->
         <activity
