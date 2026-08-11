@@ -69,8 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:focusedMonthDateColor="#000000"
-                        android:unfocusedMonthDateColor="#808080"
+                        android:theme="@style/CalendarTheme"
                         android:weekDayTextAppearance="@style/CalendarWeekDay"
                         android:dateTextAppearance="@style/CalendarDate"
                         android:firstDayOfWeek="1" />
