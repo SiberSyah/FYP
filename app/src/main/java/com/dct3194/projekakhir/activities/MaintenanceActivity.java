@@ -91,7 +91,7 @@ public class MaintenanceActivity extends AppCompatActivity {
         setServiceListeners();
 
         // Header Back Icon
-        findViewById(R.id.ivHeaderIcon).setOnClickListener(v -> finish());
+        findViewById(R.id.tvHeaderTitle).setOnClickListener(v -> finish());
 
         // Bottom Navigation
         findViewById(R.id.navHome).setOnClickListener(v -> {

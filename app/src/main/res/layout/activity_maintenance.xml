@@ -13,29 +13,17 @@
         android:background="@color/primary_blue"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivHeaderIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:contentDescription="@string/aircond_maintenance"
-        android:src="@drawable/ic_maintenance"
-        app:layout_constraintBottom_toBottomOf="@id/headerBg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/headerBg"
-        app:tint="@color/white" />
-
     <TextView
         android:id="@+id/tvHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="@string/aircond_maintenance"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/headerBg"
-        app:layout_constraintStart_toEndOf="@id/ivHeaderIcon"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/headerBg" />
 
     <androidx.core.widget.NestedScrollView
