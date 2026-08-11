@@ -24,6 +24,10 @@ public class MaintenanceSummaryActivity extends AppCompatActivity {
     private View rowDate;
     private View rowTime;
 
+    private String customerName;
+    private String customerPhone;
+    private String customerAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -99,6 +103,21 @@ public class MaintenanceSummaryActivity extends AppCompatActivity {
 
         if (intent != null) {
 
+            customerName =
+                    intent.getStringExtra(
+                            "customerName"
+                    );
+
+            customerPhone =
+                    intent.getStringExtra(
+                            "customerPhone"
+                    );
+
+            customerAddress =
+                    intent.getStringExtra(
+                            "customerAddress"
+                    );
+
             setRowValue(
                     rowService,
                     intent.getStringExtra(
@@ -165,7 +184,6 @@ public class MaintenanceSummaryActivity extends AppCompatActivity {
                             MaintenanceSummaryActivity.this,
                             PaymentMethodActivity.class
                     );
-
             // =========================
             // Maintenance
             // =========================
@@ -228,6 +246,25 @@ public class MaintenanceSummaryActivity extends AppCompatActivity {
             nextIntent.putExtra(
                     "price",
                     maintenancePrice
+            );
+
+            // =========================
+            // Customer Information
+            // =========================
+
+            nextIntent.putExtra(
+                    "customerName",
+                    customerName
+            );
+
+            nextIntent.putExtra(
+                    "customerPhone",
+                    customerPhone
+            );
+
+            nextIntent.putExtra(
+                    "customerAddress",
+                    customerAddress
             );
 
             // =========================

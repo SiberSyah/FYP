@@ -12,10 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EncikAircond">
 
-        <!-- Main Activity -->
+        <!-- Main Activity (Temporary Launcher for Testing) -->
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <!-- Select Aircond -->
         <activity
@@ -76,15 +84,7 @@
         <!-- Auth and Others -->
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:exported="false" />
 
         <activity
             android:name=".activities.RegisterActivity"

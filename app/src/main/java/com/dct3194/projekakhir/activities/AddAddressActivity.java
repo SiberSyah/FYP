@@ -57,6 +57,10 @@ public class AddAddressActivity extends AppCompatActivity {
     private String date;
     private String time;
 
+    private boolean maintenance;
+    private String service;
+    private String maintenanceType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -120,6 +124,22 @@ public class AddAddressActivity extends AppCompatActivity {
 
         Intent previousIntent =
                 getIntent();
+
+        maintenance =
+                previousIntent.getBooleanExtra(
+                        "maintenance",
+                        false
+                );
+
+        service =
+                previousIntent.getStringExtra(
+                        "service"
+                );
+
+        maintenanceType =
+                previousIntent.getStringExtra(
+                        "type"
+                );
 
         aircond =
                 (Aircond) previousIntent
@@ -221,14 +241,44 @@ public class AddAddressActivity extends AppCompatActivity {
                             .trim();
 
             // =========================
-            // Go To Buy Summary
+            // Go To Summary
             // =========================
 
-            Intent intent =
-                    new Intent(
-                            AddAddressActivity.this,
-                            BuySummaryActivity.class
-                    );
+            Intent intent;
+
+            if (maintenance) {
+
+                intent = new Intent(
+                        AddAddressActivity.this,
+                        MaintenanceSummaryActivity.class
+                );
+
+            } else {
+
+                intent = new Intent(
+                        AddAddressActivity.this,
+                        BuySummaryActivity.class
+                );
+            }
+
+            // =========================
+            // Maintenance Data
+            // =========================
+
+            intent.putExtra(
+                    "maintenance",
+                    maintenance
+            );
+
+            intent.putExtra(
+                    "service",
+                    service
+            );
+
+            intent.putExtra(
+                    "maintenanceType",
+                    maintenanceType
+            );
 
             // =========================
             // Product

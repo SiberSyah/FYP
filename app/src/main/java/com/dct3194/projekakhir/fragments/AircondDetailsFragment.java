@@ -3,6 +3,7 @@ package com.dct3194.projekakhir.fragments;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,7 +201,10 @@ public class AircondDetailsFragment extends Fragment {
                 setupTypes();
                 setupPackages();
 
-                // Panggil kalkulasi awal supaya totalPrice terisi dan txtEstimatedPrice terkemaskini
+                // =========================
+                // Initial Price
+                // =========================
+
                 updatePrice();
             }
         }
@@ -306,7 +310,10 @@ public class AircondDetailsFragment extends Fragment {
 
         List<String> models = aircond.getModels();
 
-        // Default hide semua dahulu
+        // =========================
+        // Hide Semua Dahulu
+        // =========================
+
         btnFTKF.setVisibility(View.GONE);
         btnFTKU.setVisibility(View.GONE);
         btnFTKM.setVisibility(View.GONE);
@@ -336,15 +343,8 @@ public class AircondDetailsFragment extends Fragment {
                 );
             });
 
-            // Pilih model pertama secara default
             selectedModel =
                     models.get(0);
-
-            selectButton(
-                    btnFTKF,
-                    btnFTKU,
-                    btnFTKM
-            );
         }
 
         // =========================
@@ -390,6 +390,18 @@ public class AircondDetailsFragment extends Fragment {
                 );
             });
         }
+
+        // =========================
+        // IMPORTANT
+        // Apply Style AFTER
+        // All Buttons Are Visible
+        // =========================
+
+        selectButton(
+                btnFTKF,
+                btnFTKU,
+                btnFTKM
+        );
     }
 
     // =====================================================
@@ -398,9 +410,13 @@ public class AircondDetailsFragment extends Fragment {
 
     private void setupTypes() {
 
-        List<String> types = aircond.getTypes();
+        List<String> types =
+                aircond.getTypes();
 
-        // Default hide
+        // =========================
+        // Hide Semua Dahulu
+        // =========================
+
         btnInverter.setVisibility(View.GONE);
         btnNonInverter.setVisibility(View.GONE);
 
@@ -432,11 +448,6 @@ public class AircondDetailsFragment extends Fragment {
 
             selectedType =
                     types.get(0);
-
-            selectButton(
-                    btnInverter,
-                    btnNonInverter
-            );
         }
 
         // =========================
@@ -461,6 +472,17 @@ public class AircondDetailsFragment extends Fragment {
                 updatePrice();
             });
         }
+
+        // =========================
+        // IMPORTANT
+        // Apply Style AFTER
+        // All Buttons Are Visible
+        // =========================
+
+        selectButton(
+                btnInverter,
+                btnNonInverter
+        );
     }
 
     // =====================================================
@@ -472,7 +494,10 @@ public class AircondDetailsFragment extends Fragment {
         List<String> packages =
                 aircond.getPackages();
 
-        // Default hide
+        // =========================
+        // Hide Semua Dahulu
+        // =========================
+
         btnUnitOnly.setVisibility(View.GONE);
         btnWithInstall.setVisibility(View.GONE);
 
@@ -508,11 +533,6 @@ public class AircondDetailsFragment extends Fragment {
                     packages.get(0);
 
             installation = false;
-
-            selectButton(
-                    btnUnitOnly,
-                    btnWithInstall
-            );
         }
 
         // =========================
@@ -539,6 +559,17 @@ public class AircondDetailsFragment extends Fragment {
                 updatePrice();
             });
         }
+
+        // =========================
+        // IMPORTANT
+        // Apply Style AFTER
+        // All Buttons Are Visible
+        // =========================
+
+        selectButton(
+                btnUnitOnly,
+                btnWithInstall
+        );
     }
 
     // =====================================================
@@ -689,28 +720,85 @@ public class AircondDetailsFragment extends Fragment {
             return;
         }
 
-        active.setBackgroundColor(
-                Color.parseColor("#1565C0")
-        );
+        // =========================
+        // SELECTED BUTTON
+        // =========================
 
-        active.setTextColor(
+        applyButtonStyle(
+                active,
+                "#1565C0",
                 Color.WHITE
         );
+
+        // =========================
+        // UNSELECTED BUTTONS
+        // =========================
 
         for (TextView inactive : inactives) {
 
             if (inactive != null &&
                     inactive.getVisibility() == View.VISIBLE) {
 
-                inactive.setBackgroundColor(
-                        Color.parseColor("#E0E9FA")
-                );
-
-                inactive.setTextColor(
+                applyButtonStyle(
+                        inactive,
+                        "#E0E9FA",
                         Color.parseColor("#1565C0")
                 );
             }
         }
+    }
+
+    // =====================================================
+    // APPLY SAME BUTTON STYLE
+    // =====================================================
+
+    private void applyButtonStyle(
+            TextView button,
+            String backgroundColor,
+            int textColor) {
+
+        if (button == null) {
+            return;
+        }
+
+        // =========================
+        // Remove Default Android
+        // Button Appearance
+        // =========================
+
+        button.setBackgroundTintList(null);
+        button.setStateListAnimator(null);
+        button.setElevation(0f);
+        button.setTranslationZ(0f);
+
+        // =========================
+        // Flat Background
+        // Same Style As HP
+        // =========================
+
+        GradientDrawable background =
+                new GradientDrawable();
+
+        background.setColor(
+                Color.parseColor(backgroundColor)
+        );
+
+        // Flat rectangular button
+        background.setCornerRadius(0f);
+
+        button.setBackground(background);
+
+        // =========================
+        // Text
+        // =========================
+
+        button.setTextColor(textColor);
+
+        // =========================
+        // Remove Extra Elevation
+        // =========================
+
+        button.setAlpha(1.0f);
     }
 
     // =====================================================

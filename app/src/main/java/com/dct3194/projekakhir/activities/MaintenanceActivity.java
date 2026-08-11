@@ -1,8 +1,11 @@
 package com.dct3194.projekakhir.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,11 @@ public class MaintenanceActivity extends AppCompatActivity {
     private LinearLayout layoutPrice;
     private TextView tvPriceValue;
     private TextView btnNext;
+
+    // Bottom Navigation Icons
+    private ImageView iconProfile;
+    private ImageView iconHome;
+    private ImageView iconOrders;
 
     private String selectedHP = "";
     private String selectedType = "";
@@ -50,6 +58,14 @@ public class MaintenanceActivity extends AppCompatActivity {
         tvPriceValue = findViewById(R.id.tvPriceValue);
         btnNext = findViewById(R.id.btnNext);
 
+        // Initialize Bottom Navigation Icons
+        iconProfile = findViewById(R.id.iconProfile);
+        iconHome = findViewById(R.id.iconHome);
+        iconOrders = findViewById(R.id.iconOrders);
+
+        // Set Home icon as active by default
+        selectHome();
+
         btnNext.setOnClickListener(v -> {
 
             if (selectedHP.isEmpty() ||
@@ -65,22 +81,16 @@ public class MaintenanceActivity extends AppCompatActivity {
                 return;
             }
 
-
+            // Open MaintenanceDateActivity
             Intent intent = new Intent(
                     MaintenanceActivity.this,
-                    MainActivity.class
+                    MaintenanceDateActivity.class
             );
-
-
-            intent.putExtra("openFragment", "maintenanceDate");
-
-            intent.putExtra("mode", "MAINTENANCE");
 
             intent.putExtra("hp", selectedHP);
             intent.putExtra("type", selectedType);
             intent.putExtra("service", selectedService);
             intent.putExtra("price", tvPriceValue.getText().toString());
-
 
             startActivity(intent);
         });
@@ -93,8 +103,9 @@ public class MaintenanceActivity extends AppCompatActivity {
         // Header Back Icon
         findViewById(R.id.ivHeaderIcon).setOnClickListener(v -> finish());
 
-        // Bottom Navigation
+        // Bottom Navigation Listeners
         findViewById(R.id.navHome).setOnClickListener(v -> {
+            selectHome();
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("page", "home");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -103,6 +114,7 @@ public class MaintenanceActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.navProfile).setOnClickListener(v -> {
+            selectProfile();
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("page", "profile");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -111,6 +123,7 @@ public class MaintenanceActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.navOrders).setOnClickListener(v -> {
+            selectOrders();
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("page", "orders");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -205,5 +218,42 @@ public class MaintenanceActivity extends AppCompatActivity {
         if (selectedType.equalsIgnoreCase("INVERTER")) price += 10.0;
 
         tvPriceValue.setText(String.format(Locale.getDefault(), "RM %.2f", price));
+    }
+
+    // =========================================================
+    // BOTTOM NAVIGATION ICON COLOR LOGIC
+    // =========================================================
+
+    private void resetIcons() {
+        if (iconProfile != null) {
+            iconProfile.setImageTintList(ColorStateList.valueOf(Color.GRAY));
+        }
+        if (iconHome != null) {
+            iconHome.setImageTintList(ColorStateList.valueOf(Color.GRAY));
+        }
+        if (iconOrders != null) {
+            iconOrders.setImageTintList(ColorStateList.valueOf(Color.GRAY));
+        }
+    }
+
+    private void selectHome() {
+        resetIcons();
+        if (iconHome != null) {
+            iconHome.setImageTintList(ColorStateList.valueOf(Color.parseColor("#3158B8")));
+        }
+    }
+
+    private void selectProfile() {
+        resetIcons();
+        if (iconProfile != null) {
+            iconProfile.setImageTintList(ColorStateList.valueOf(Color.parseColor("#3158B8")));
+        }
+    }
+
+    private void selectOrders() {
+        resetIcons();
+        if (iconOrders != null) {
+            iconOrders.setImageTintList(ColorStateList.valueOf(Color.parseColor("#3158B8")));
+        }
     }
 }
