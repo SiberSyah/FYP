@@ -35,7 +35,6 @@
                 android:textStyle="bold" />
 
             <!-- Online Banking -->
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardOnlineBanking"
                 android:layout_width="match_parent"
@@ -57,12 +56,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <!-- Online Banking Icon -->
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:id="@+id/iconOnlineBanking"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_marginStart="14dp"
-                        android:src="@android:drawable/ic_menu_save"
-                        app:tint="#3158B8" />
+                        android:src="@drawable/ic_online_banking"
+                        android:contentDescription="Online Banking" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -77,7 +78,6 @@
             </androidx.cardview.widget.CardView>
 
             <!-- Credit / Debit Card -->
-
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardCard"
                 android:layout_width="match_parent"
@@ -99,11 +99,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <!-- Credit / Debit Card Icon -->
                     <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:id="@+id/iconPaymentCard"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_marginStart="14dp"
-                        android:src="@android:drawable/ic_menu_gallery" />
+                        android:src="@drawable/ic_payment_card"
+                        android:contentDescription="Credit or Debit Card" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,13 +120,13 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Space ni yang tolak Confirm Payment turun ke bawah secara automatik,
-                 tak kira tinggi skrin telefon -->
+            <!-- Space -->
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
+            <!-- Confirm Payment -->
             <Button
                 android:id="@+id/btnConfirmPayment"
                 android:layout_width="match_parent"
@@ -142,7 +145,6 @@
     </ScrollView>
 
     <!-- Floating Bottom Navigation -->
-
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="0dp"
@@ -161,7 +163,6 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <!-- Profile -->
-
         <LinearLayout
             android:id="@+id/navProfile"
             android:layout_width="0dp"
@@ -175,12 +176,11 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_person"
-                app:tint="#9E9E9E"/>
+                app:tint="#9E9E9E" />
 
         </LinearLayout>
 
         <!-- Home -->
-
         <LinearLayout
             android:id="@+id/navHome"
             android:layout_width="0dp"
@@ -194,12 +194,11 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_home"
-                app:tint="#3158B8"/>
+                app:tint="#3158B8" />
 
         </LinearLayout>
 
         <!-- Orders -->
-
         <LinearLayout
             android:id="@+id/navOrders"
             android:layout_width="0dp"
@@ -213,7 +212,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:src="@drawable/ic_orders"
-                app:tint="#9E9E9E"/>
+                app:tint="#9E9E9E" />
 
         </LinearLayout>
 

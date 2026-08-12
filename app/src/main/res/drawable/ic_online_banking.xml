@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Bank Building -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M5,17 L24,7 L43,17 C43.6,17.3 44,17.9 44,18.5 C44,19.3 43.3,20 42.5,20 L5.5,20 C4.7,20 4,19.3 4,18.5 C4,17.9 4.4,17.3 5,17 Z" />
+
+    <!-- Roof Line -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M4,21 L44,21 L44,24 L4,24 Z" />
+
+    <!-- Left Pillar -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M7,24 L13,24 L13,38 L7,38 Z" />
+
+    <!-- Middle Pillar -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M21,24 L27,24 L27,38 L21,38 Z" />
+
+    <!-- Right Pillar -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M35,24 L41,24 L41,38 L35,38 Z" />
+
+    <!-- Bottom Base -->
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M4,38 L44,38 L44,42 L4,42 Z" />
+
+    <!-- Online Banking Circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,29 A5,5 0,1 0,30 39 A5,5 0,1 0,30 29 Z" />
+
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M29,31 L31,31 L31,37 L29,37 Z" />
+
+    <path
+        android:fillColor="#3158B8"
+        android:pathData="M27,33 L33,33 L33,35 L27,35 Z" />
+
+</vector>
