@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // ==========================
+        // Check App Update
+        // ==========================
+        UpdateChecker.checkForUpdate(this);
+
         navProfile = findViewById(R.id.navProfile);
         navHome = findViewById(R.id.navHome);
         navOrders = findViewById(R.id.navOrders);

@@ -95,6 +95,7 @@ public class SelectDateTimeFragment extends Fragment {
         );
 
         btnBack = view.findViewById(R.id.btnBack);
+
         imgSummaryAircond =
                 view.findViewById(R.id.imgSummaryAircond);
 
@@ -120,15 +121,24 @@ public class SelectDateTimeFragment extends Fragment {
         };
 
         for (Button btn : slots) {
+
             btn.setEnabled(true);
             btn.setAlpha(1f);
-            btn.setTextColor(Color.parseColor("#3158B8"));
-            btn.setBackgroundResource(R.drawable.button_outline);
+
+            btn.setTextColor(
+                    Color.parseColor("#3158B8")
+            );
+
+            btn.setBackgroundResource(
+                    R.drawable.button_outline
+            );
         }
 
-        btnContinue = view.findViewById(R.id.btnContinue);
+        btnContinue =
+                view.findViewById(R.id.btnContinue);
 
-        calendarView = view.findViewById(R.id.calendarView);
+        calendarView =
+                view.findViewById(R.id.calendarView);
 
         txtSummaryName =
                 view.findViewById(R.id.txtSummaryName);
@@ -143,7 +153,7 @@ public class SelectDateTimeFragment extends Fragment {
                 view.findViewById(R.id.txtSummaryInstall);
 
         // =========================
-        // Load Arguments
+        // LOAD ARGUMENTS
         // =========================
 
         if (getArguments() != null) {
@@ -256,7 +266,10 @@ public class SelectDateTimeFragment extends Fragment {
                                 selectedPrice;
                     }
 
-                    // Tambah installation
+                    // =========================
+                    // INSTALLATION PRICE
+                    // =========================
+
                     if (installation) {
 
                         totalPrice +=
@@ -266,7 +279,7 @@ public class SelectDateTimeFragment extends Fragment {
             }
 
             // =========================
-            // Dynamic Summary
+            // DYNAMIC SUMMARY
             // =========================
 
             if (mode.equals("MAINTENANCE")) {
@@ -321,7 +334,7 @@ public class SelectDateTimeFragment extends Fragment {
         }
 
         // =========================
-        // Calendar Date
+        // CALENDAR DATE
         // =========================
 
         Calendar calendar =
@@ -357,41 +370,53 @@ public class SelectDateTimeFragment extends Fragment {
         );
 
         // =========================
-        // Time Slot
+        // TIME SLOTS
         // =========================
 
         btn8AM.setOnClickListener(v -> {
+
             selectedTime = "8:00 AM";
+
             selectTimeButton(btn8AM);
         });
 
         btn9AM.setOnClickListener(v -> {
+
             selectedTime = "9:00 AM";
+
             selectTimeButton(btn9AM);
         });
 
         btn11AM.setOnClickListener(v -> {
+
             selectedTime = "11:00 AM";
+
             selectTimeButton(btn11AM);
         });
 
         btn1PM.setOnClickListener(v -> {
+
             selectedTime = "1:00 PM";
+
             selectTimeButton(btn1PM);
         });
 
         btn2PM.setOnClickListener(v -> {
+
             selectedTime = "2:00 PM";
+
             selectTimeButton(btn2PM);
         });
 
         btn4PM.setOnClickListener(v -> {
+
             selectedTime = "4:00 PM";
+
             selectTimeButton(btn4PM);
         });
 
         // =========================
-        // Back
+        // BACK
         // =========================
 
         btnBack.setOnClickListener(v ->
@@ -401,63 +426,334 @@ public class SelectDateTimeFragment extends Fragment {
         );
 
         // =========================
-        // Continue
+        // CONTINUE
         // =========================
 
         btnContinue.setOnClickListener(v -> {
 
+            // =========================
+            // CHECK TIME
+            // =========================
+
             if (selectedTime.isEmpty()) {
-                Toast.makeText(getContext(), "Sila pilih masa perkhidmatan!", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(
+                        getContext(),
+                        "Sila pilih masa perkhidmatan!",
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 return;
             }
 
-            Intent intent = new Intent(getActivity(), AddAddressActivity.class);
+            Intent intent =
+                    new Intent(
+                            getActivity(),
+                            AddAddressActivity.class
+                    );
+
+            // =====================================================
+            // MAINTENANCE
+            // =====================================================
 
             if (mode.equals("MAINTENANCE")) {
-                intent.putExtra("maintenance", true);
-                intent.putExtra("hp", selectedHP);
-                intent.putExtra("type", maintenanceType);
-                intent.putExtra("service", maintenanceService);
-                intent.putExtra("price", maintenancePrice);
-                intent.putExtra("date", selectedDate);
-                intent.putExtra("time", selectedTime);
-            } else {
-                // BUY AIRCOND
-                if (totalPrice <= 0 && aircond != null) {
-                    if (selectedPrice <= 0) {
-                        if (selectedHP.equals("1.5 HP")) selectedPrice = aircond.getPrice15HP();
-                        else if (selectedHP.equals("2.0 HP")) selectedPrice = aircond.getPrice2HP();
-                        else selectedPrice = aircond.getPrice1HP();
-                    }
-                    totalPrice = selectedPrice;
-                    if (installation) totalPrice += aircond.getInstallationPrice();
-                }
 
-                if (totalPrice <= 0) {
-                    Toast.makeText(requireContext(), "Unable to calculate aircond price.", Toast.LENGTH_LONG).show();
+                // Convert maintenance price String -> int
+                int maintenancePriceValue =
+                        parsePriceToInt(
+                                maintenancePrice
+                        );
+
+                // Safety check
+                if (maintenancePriceValue <= 0) {
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Harga maintenance tidak sah: "
+                                    + maintenancePrice,
+                            Toast.LENGTH_LONG
+                    ).show();
+
                     return;
                 }
 
-                intent.putExtra("aircond", aircond);
-                intent.putExtra("installation", installation);
-                intent.putExtra("hp", selectedHP);
-                intent.putExtra("type", selectedType);
-                intent.putExtra("date", selectedDate);
-                intent.putExtra("time", selectedTime);
-                intent.putExtra("model", selectedModel);
-                intent.putExtra("package", selectedPackage);
-                intent.putExtra("price", selectedPrice);
-                intent.putExtra("totalPrice", totalPrice);
+                // =========================
+                // Maintenance Flag
+                // =========================
+
+                intent.putExtra(
+                        "maintenance",
+                        true
+                );
+
+                // =========================
+                // Maintenance HP
+                // =========================
+
+                intent.putExtra(
+                        "hp",
+                        selectedHP
+                );
+
+                // =========================
+                // Maintenance Type
+                // =========================
+
+                intent.putExtra(
+                        "type",
+                        maintenanceType
+                );
+
+                // =========================
+                // Maintenance Service
+                // =========================
+
+                intent.putExtra(
+                        "service",
+                        maintenanceService
+                );
+
+                // =================================================
+                // IMPORTANT
+                // =================================================
+                // AddAddressActivity baca "price" sebagai INT.
+                // Jadi sekarang kita hantar INT, bukan String.
+                // =================================================
+
+                intent.putExtra(
+                        "price",
+                        maintenancePriceValue
+                );
+
+                // Simpan juga String asal untuk screen seterusnya
+                // yang mungkin perlukan paparan seperti "RM100".
+
+                intent.putExtra(
+                        "maintenancePrice",
+                        maintenancePrice
+                );
+
+                // Simpan totalPrice sebagai INT juga.
+
+                intent.putExtra(
+                        "totalPrice",
+                        maintenancePriceValue
+                );
+
+                // =========================
+                // Date
+                // =========================
+
+                intent.putExtra(
+                        "date",
+                        selectedDate
+                );
+
+                // =========================
+                // Time
+                // =========================
+
+                intent.putExtra(
+                        "time",
+                        selectedTime
+                );
+
+            } else {
+
+                // =================================================
+                // BUY AIRCOND
+                // =================================================
+
+                if (totalPrice <= 0 &&
+                        aircond != null) {
+
+                    if (selectedPrice <= 0) {
+
+                        if (selectedHP.equals(
+                                "1.5 HP")) {
+
+                            selectedPrice =
+                                    aircond.getPrice15HP();
+
+                        } else if (
+                                selectedHP.equals(
+                                        "2.0 HP")) {
+
+                            selectedPrice =
+                                    aircond.getPrice2HP();
+
+                        } else {
+
+                            selectedPrice =
+                                    aircond.getPrice1HP();
+                        }
+                    }
+
+                    totalPrice =
+                            selectedPrice;
+
+                    // =========================
+                    // Installation
+                    // =========================
+
+                    if (installation) {
+
+                        totalPrice +=
+                                aircond.getInstallationPrice();
+                    }
+                }
+
+                // =========================
+                // PRICE VALIDATION
+                // =========================
+
+                if (totalPrice <= 0) {
+
+                    Toast.makeText(
+                            requireContext(),
+                            "Unable to calculate aircond price.",
+                            Toast.LENGTH_LONG
+                    ).show();
+
+                    return;
+                }
+
+                // =========================
+                // Aircond
+                // =========================
+
+                intent.putExtra(
+                        "aircond",
+                        aircond
+                );
+
+                // =========================
+                // Installation
+                // =========================
+
+                intent.putExtra(
+                        "installation",
+                        installation
+                );
+
+                // =========================
+                // HP
+                // =========================
+
+                intent.putExtra(
+                        "hp",
+                        selectedHP
+                );
+
+                // =========================
+                // Type
+                // =========================
+
+                intent.putExtra(
+                        "type",
+                        selectedType
+                );
+
+                // =========================
+                // Date
+                // =========================
+
+                intent.putExtra(
+                        "date",
+                        selectedDate
+                );
+
+                // =========================
+                // Time
+                // =========================
+
+                intent.putExtra(
+                        "time",
+                        selectedTime
+                );
+
+                // =========================
+                // Model
+                // =========================
+
+                intent.putExtra(
+                        "model",
+                        selectedModel
+                );
+
+                // =========================
+                // Package
+                // =========================
+
+                intent.putExtra(
+                        "package",
+                        selectedPackage
+                );
+
+                // =========================
+                // Selected Price
+                // =========================
+
+                intent.putExtra(
+                        "price",
+                        selectedPrice
+                );
+
+                // =========================
+                // Total Price
+                // =========================
+
+                intent.putExtra(
+                        "totalPrice",
+                        totalPrice
+                );
             }
+
+            // =========================
+            // OPEN ADDRESS PAGE
+            // =========================
+
             startActivity(intent);
         });
 
         return view;
     }
 
-    // =========================
-    // Load Image From Firebase
-    // =========================
+    // =====================================================
+    // PARSE MAINTENANCE PRICE
+    // =====================================================
+
+    private int parsePriceToInt(String priceText) {
+
+        if (priceText == null ||
+                priceText.trim().isEmpty()) {
+
+            return 0;
+        }
+
+        try {
+
+            String cleaned =
+                    priceText
+                            .replace("RM", "")
+                            .replace("rm", "")
+                            .replace(",", "")
+                            .trim();
+
+            double value =
+                    Double.parseDouble(cleaned);
+
+            return (int) Math.round(value);
+
+        } catch (Exception e) {
+
+            return 0;
+        }
+    }
+
+    // =====================================================
+    // LOAD IMAGE FROM FIREBASE
+    // =====================================================
 
     private void loadAircondImage(
             String imageUrl) {
@@ -524,9 +820,9 @@ public class SelectDateTimeFragment extends Fragment {
         }
     }
 
-    // =========================
-    // Time Slot Selection
-    // =========================
+    // =====================================================
+    // TIME SLOT SELECTION
+    // =====================================================
 
     private void selectTimeButton(
             Button selectedButton) {

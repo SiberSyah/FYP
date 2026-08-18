@@ -773,7 +773,7 @@ public class AircondDetailsFragment extends Fragment {
 
         // =========================
         // Flat Background
-        // Same Style As HP
+        // With Corner Radius
         // =========================
 
         GradientDrawable background =
@@ -783,8 +783,9 @@ public class AircondDetailsFragment extends Fragment {
                 Color.parseColor(backgroundColor)
         );
 
-        // Flat rectangular button
-        background.setCornerRadius(0f);
+        // Convert 12dp to pixels for rounded corners
+        float cornerRadiusPx = 12 * button.getResources().getDisplayMetrics().density;
+        background.setCornerRadius(cornerRadiusPx);
 
         button.setBackground(background);
 

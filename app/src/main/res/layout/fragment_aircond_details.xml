@@ -55,15 +55,15 @@
                 <!-- IMAGE CONTAINER BACKGROUND -->
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:background="#E0E9FA">
+                    android:layout_height="180dp"
+                    android:background="#FFFFFF">
 
                     <ImageView
                         android:id="@+id/imgAircond"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:padding="8dp"
+                        android:padding="4dp"
                         android:scaleType="fitCenter"
                         android:src="@mipmap/ic_launcher"/>
                 </FrameLayout>
@@ -132,40 +132,46 @@
                     <TextView
                         android:id="@+id/btnFTKF"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="FTKF Series"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textColor="#3158B8"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btnFTKU"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="FTKU Series"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textColor="#3158B8"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btnFTKM"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="FTKM Series"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textColor="#3158B8"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -204,40 +210,46 @@
                     <TextView
                         android:id="@+id/btn1HP"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="1.0 HP"
+                        android:textColor="#3158B8"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btn15HP"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="1.5 HP"
+                        android:textColor="#3158B8"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btn2HP"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="2.0 HP"
+                        android:textColor="#3158B8"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -276,31 +288,31 @@
                     <TextView
                         android:id="@+id/btnInverter"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
-                        android:gravity="center"
-                        android:text="Inverter"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
+                        android:background="@drawable/button_outline"
                         android:clickable="true"
                         android:focusable="true"
-                        android:background="@android:drawable/btn_default"/>
+                        android:gravity="center"
+                        android:text="Inverter"
+                        android:textColor="#3158B8"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btnNonInverter"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Non-Inverter"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
+                        android:background="@drawable/button_outline"
                         android:clickable="true"
                         android:focusable="true"
-                        android:background="@android:drawable/btn_default"/>
+                        android:gravity="center"
+                        android:text="Non-Inverter"
+                        android:textColor="#3158B8"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -339,27 +351,31 @@
                     <TextView
                         android:id="@+id/btnUnitOnly"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="6dp"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="Unit Only"
+                        android:textColor="#3158B8"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/btnWithInstall"
                         android:layout_width="0dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_weight="1"
+                        android:background="@drawable/button_outline"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:gravity="center"
                         android:text="With Installation"
+                        android:textColor="#3158B8"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1565C0"
-                        android:background="@android:drawable/btn_default"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -391,8 +407,8 @@
                         android:layout_centerVertical="true"
                         android:text="Estimated Price"
                         android:textColor="#1565C0"
-                        android:textStyle="bold"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/txtEstimatedPrice"
@@ -401,8 +417,8 @@
                         android:layout_alignParentEnd="true"
                         android:text="RM1,299"
                         android:textColor="#1565C0"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
                 </RelativeLayout>
 

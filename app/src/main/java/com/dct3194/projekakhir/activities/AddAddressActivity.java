@@ -139,7 +139,9 @@ public class AddAddressActivity extends AppCompatActivity {
 
         aircond =
                 (Aircond) previousIntent
-                        .getSerializableExtra("aircond");
+                        .getSerializableExtra(
+                                "aircond"
+                        );
 
         model =
                 previousIntent.getStringExtra(
@@ -161,17 +163,34 @@ public class AddAddressActivity extends AppCompatActivity {
                         "package"
                 );
 
-        price =
-                previousIntent.getIntExtra(
-                        "price",
-                        0
-                );
+        // =========================================================
+        // PRICE
+        // =========================================================
 
-        totalPrice =
-                previousIntent.getIntExtra(
-                        "totalPrice",
-                        0
-                );
+        if (maintenance) {
+
+            price =
+                    previousIntent.getIntExtra(
+                            "price",
+                            0
+                    );
+
+            totalPrice = price;
+
+        } else {
+
+            price =
+                    previousIntent.getIntExtra(
+                            "price",
+                            0
+                    );
+
+            totalPrice =
+                    previousIntent.getIntExtra(
+                            "totalPrice",
+                            0
+                    );
+        }
 
         installation =
                 previousIntent.getBooleanExtra(
@@ -240,10 +259,11 @@ public class AddAddressActivity extends AppCompatActivity {
             // Go To Summary
             // =========================
 
-            Intent intent = new Intent(
-                    AddAddressActivity.this,
-                    BuySummaryActivity.class
-            );
+            Intent intent =
+                    new Intent(
+                            AddAddressActivity.this,
+                            BuySummaryActivity.class
+                    );
 
             // =========================
             // Maintenance Data
@@ -421,6 +441,38 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     // =========================================================
+    // PARSE MAINTENANCE PRICE
+    // =========================================================
+
+    private int parseMaintenancePrice(String priceText) {
+
+        if (priceText == null ||
+                priceText.trim().isEmpty()) {
+
+            return 0;
+        }
+
+        try {
+
+            String cleaned =
+                    priceText
+                            .replace("RM", "")
+                            .replace("rm", "")
+                            .replace(",", "")
+                            .trim();
+
+            double value =
+                    Double.parseDouble(cleaned);
+
+            return (int) Math.round(value);
+
+        } catch (Exception e) {
+
+            return 0;
+        }
+    }
+
+    // =========================================================
     // RESET BOTTOM NAVIGATION ICONS
     // =========================================================
 
@@ -515,46 +567,48 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     // =========================================================
-    // Validate Form
+    // VALIDATE FORM
     // =========================================================
 
     private boolean validateForm() {
 
-        if (etFullName
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()
+        if (
+                etFullName
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
 
-                || etPhone
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()
+                        || etPhone
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
 
-                || etAddress
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()
+                        || etAddress
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
 
-                || etCity
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()
+                        || etCity
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
 
-                || etPoscode
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()
+                        || etPoscode
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
 
-                || etState
-                .getText()
-                .toString()
-                .trim()
-                .isEmpty()) {
+                        || etState
+                        .getText()
+                        .toString()
+                        .trim()
+                        .isEmpty()
+        ) {
 
             Toast.makeText(
                     this,

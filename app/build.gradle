@@ -5,6 +5,7 @@ plugins {
 
 android {
     namespace 'com.dct3194.projekakhir'
+
     compileSdk {
         version = release(36)
     }
@@ -13,8 +14,10 @@ android {
         applicationId "com.dct3194.projekakhir"
         minSdk 35
         targetSdk 36
-        versionCode 1
-        versionName "1.0"
+
+        // UBAH BAHAGIAN INI
+        versionCode 100
+        versionName "100"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,9 +25,16 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            proguardFiles(
+                    getDefaultProguardFile(
+                            'proguard-android-optimize.txt'
+                    ),
+                    'proguard-rules.pro'
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -36,7 +46,6 @@ dependencies {
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
-
 
     implementation 'com.google.firebase:firebase-auth:22.3.0'
     implementation 'com.google.firebase:firebase-firestore:24.10.0'
