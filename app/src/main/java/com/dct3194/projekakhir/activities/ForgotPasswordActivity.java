@@ -111,6 +111,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseBody = response.body() != null ? response.body().string() : "No body";
+                final int responseCode = response.code();
+                
                 runOnUiThread(() -> {
                     if (response.isSuccessful()) {
                         Toast.makeText(ForgotPasswordActivity.this, "OTP sent to " + email, Toast.LENGTH_LONG).show();
@@ -120,8 +123,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         btnSendReset.setEnabled(true);
-                        Log.e("EmailJS", "Error: " + response.code() + " " + response.message());
-                        Toast.makeText(ForgotPasswordActivity.this, "EmailJS Error. Check logs.", Toast.LENGTH_SHORT).show();
+                        Log.e("EmailJS", "Error Code: " + responseCode + ", Message: " + responseBody);
+                        Toast.makeText(ForgotPasswordActivity.this, "EmailJS Error: " + responseBody, Toast.LENGTH_LONG).show();
                     }
                 });
             }
