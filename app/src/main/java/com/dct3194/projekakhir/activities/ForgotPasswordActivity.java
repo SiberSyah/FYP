@@ -36,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     // EmailJS Credentials
     private static final String SERVICE_ID = "service_jpih2pw";
-    private static final String TEMPLATE_ID = "template_f7r06i6";
+    private static final String TEMPLATE_ID = "template_cf45pyf";
     private static final String PUBLIC_KEY = "Ms5x2z6btq1rVYk0O";
 
     @Override
@@ -97,6 +97,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         Request request = new Request.Builder()
                 .url("https://api.emailjs.com/api/v1.0/email/send")
+                .addHeader("Content-Type", "application/json")
                 .post(body)
                 .build();
 
