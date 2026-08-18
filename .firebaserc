@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "encikaircond"
-  }
+  },
+  "targets": {
+    "encikaircond": {
+      "hosting": {
+        "update": [
+          "encikaircond-update"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
