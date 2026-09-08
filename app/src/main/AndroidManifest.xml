@@ -18,94 +18,100 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EncikAircond">
 
-
-        <!-- Main Activity -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-
-        <!-- Select Aircond -->
-        <activity
-            android:name=".activities.SelectAircondActivity"
-            android:exported="false" />
-
-
-        <!-- Add Address / Customer Information -->
-        <activity
-            android:name=".activities.AddAddressActivity"
-            android:exported="false" />
-
-
-        <!-- Buy Aircond Summary -->
-        <activity
-            android:name=".activities.BuySummaryActivity"
-            android:exported="false" />
-
-
-        <!-- Payment Method -->
-        <activity
-            android:name=".activities.PaymentMethodActivity"
-            android:exported="false" />
-
-
-        <!-- Stripe Payment -->
-        <activity
-            android:name=".activities.StripePaymentActivity"
-            android:exported="false" />
-
-
-        <!-- Add Payment -->
-        <activity
-            android:name=".activities.AddPaymentActivity"
-            android:exported="false" />
-
-
-        <!-- Payment Success -->
-        <activity
-            android:name=".activities.PaymentSuccessActivity"
-            android:exported="false" />
-
-
-        <!-- Maintenance Flow -->
-        <activity
-            android:name=".activities.MaintenanceActivity"
-            android:exported="false" />
-
-
-        <!-- Order Flow -->
-        <activity
-            android:name=".activities.OrderStatusActivity"
-            android:exported="false" />
-
-
-        <!-- Address Management -->
-        <activity
-            android:name=".activities.AddressActivity"
-            android:exported="false" />
-
-
-        <!-- Authentication -->
-        <activity
-            android:name=".activities.LoginActivity"
-            android:exported="false" />
-
+        <!-- REGISTER PAGE (Set as Launcher / Landing Page) -->
         <activity
             android:name=".activities.RegisterActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- User Authentication & Recovery Flow -->
+        <activity
+            android:name=".activities.LoginActivity"
             android:exported="false" />
 
         <activity
             android:name=".activities.WelcomeActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.VerifyOTPActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ResetPasswordActivity"
+            android:exported="false" />
+
+        <!-- Main Home Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- Admin Flow -->
+        <activity
+            android:name=".activities.AdminDashboardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.AdminLoginActivity"
+            android:exported="false" />
+
+        <!-- Select Aircond -->
+        <activity
+            android:name=".activities.SelectAircondActivity"
+            android:exported="false" />
+
+        <!-- Add Address / Customer Information -->
+        <activity
+            android:name=".activities.AddAddressActivity"
+            android:exported="false" />
+
+        <!-- Buy Aircond Summary -->
+        <activity
+            android:name=".activities.BuySummaryActivity"
+            android:exported="false" />
+
+        <!-- Payment Method -->
+        <activity
+            android:name=".activities.PaymentMethodActivity"
+            android:exported="false" />
+
+        <!-- Stripe Payment -->
+        <activity
+            android:name=".activities.StripePaymentActivity"
+            android:exported="false" />
+
+        <!-- Add Payment -->
+        <activity
+            android:name=".activities.AddPaymentActivity"
+            android:exported="false" />
+
+        <!-- Payment Success -->
+        <activity
+            android:name=".activities.PaymentSuccessActivity"
+            android:exported="false" />
+
+        <!-- Maintenance Flow -->
+        <activity
+            android:name=".activities.MaintenanceActivity"
+            android:exported="false" />
+
+        <!-- Order Flow -->
+        <activity
+            android:name=".activities.OrderStatusActivity"
+            android:exported="false" />
+
+        <!-- Address Management -->
+        <activity
+            android:name=".activities.AddressActivity"
+            android:exported="false" />
 
         <!-- FileProvider untuk Auto-Update APK -->
         <provider

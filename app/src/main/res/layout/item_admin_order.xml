@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+
+    android:orientation="horizontal"
+
+    android:gravity="center_vertical"
+
+    android:background="#FFFFFF"
+
+    android:paddingHorizontal="8dp"
+
+    android:paddingVertical="8dp">
+
+
+    <!-- TIME -->
+
+    <TextView
+
+        android:id="@+id/tvOrderTime"
+
+        android:layout_width="55dp"
+
+        android:layout_height="wrap_content"
+
+        android:text="9:00 AM"
+
+        android:textColor="#3158B8"
+
+        android:textStyle="bold"
+
+        android:textSize="11sp"/>
+
+
+
+
+
+    <!-- CUSTOMER INFO -->
+
+    <LinearLayout
+
+        android:layout_width="0dp"
+
+        android:layout_height="match_parent"
+
+        android:layout_weight="1"
+
+        android:orientation="vertical"
+
+        android:gravity="center_vertical">
+
+
+
+        <TextView
+
+            android:id="@+id/tvCustomerName"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Ali bin Abu"
+
+            android:textColor="#3158B8"
+
+            android:textStyle="bold"
+
+            android:textSize="12sp"/>
+
+
+
+        <TextView
+
+            android:id="@+id/tvAircond"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Daikin X-Sense R32"
+
+            android:textColor="#3158B8"
+
+            android:textSize="11sp"/>
+
+
+
+        <TextView
+
+            android:id="@+id/tvType"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="1.0HP + inverter"
+
+            android:textColor="#3158B8"
+
+            android:textSize="11sp"/>
+
+
+
+        <TextView
+
+            android:id="@+id/tvAddress"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="Taman Melati"
+
+            android:textColor="#777777"
+
+            android:textSize="10sp"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+    <!-- STATUS -->
+
+    <TextView
+
+        android:id="@+id/tvStatus"
+
+        android:layout_width="70dp"
+
+        android:layout_height="26dp"
+
+        android:gravity="center"
+
+        android:text="Completed"
+
+        android:textColor="#FFFFFF"
+
+        android:textSize="10sp"
+
+        android:textStyle="bold"
+
+        android:background="@drawable/bg_status_circle"/>
+
+
+
+</LinearLayout>
