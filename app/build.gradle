@@ -6,14 +6,12 @@ plugins {
 android {
     namespace 'com.dct3194.projekakhir'
 
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.dct3194.projekakhir"
-        minSdk 35
-        targetSdk 36
+        minSdk 24
+        targetSdk 35
 
         // UBAH BAHAGIAN INI
         versionCode 100

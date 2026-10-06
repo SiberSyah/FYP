@@ -18,15 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EncikAircond">
 
-        <!-- REGISTER PAGE (Set as Launcher / Landing Page) -->
+        <!-- REGISTER PAGE -->
         <activity
             android:name=".activities.RegisterActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <!-- User Authentication & Recovery Flow -->
         <activity
@@ -42,10 +37,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.ForgotPasswordActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".activities.VerifyOTPActivity"
             android:exported="false" />
 
@@ -56,7 +47,12 @@
         <!-- Main Home Activity -->
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Admin Flow -->
         <activity

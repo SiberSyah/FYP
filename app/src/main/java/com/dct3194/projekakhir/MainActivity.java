@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            loadFragment(new HomeFragment());
-            selectHome();
+            loadFragment(new ProfileFragment());
+            selectProfile();
         }
 
         // ==========================

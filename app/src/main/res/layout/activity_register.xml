@@ -1,90 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="#ECECF6"
-    android:padding="32dp">
+    android:background="#EEF5FF">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="50dp"
-        android:text="Register"
-        android:textColor="#3158B8"
-        android:textStyle="bold"
-        android:textSize="32sp"/>
-
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_edittext"
-        android:backgroundTint="@null"
-        android:hint="Username"
-        android:paddingHorizontal="18dp"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_edittext"
-        android:backgroundTint="@null"
-        android:hint="Email"
-        android:paddingHorizontal="18dp"
-        android:inputType="textEmailAddress"/>
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_edittext"
-        android:backgroundTint="@null"
-        android:hint="Password"
-        android:paddingHorizontal="18dp"
-        android:inputType="textPassword"/>
-
-    <EditText
-        android:id="@+id/etConfirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_edittext"
-        android:backgroundTint="@null"
-        android:hint="Confirm Password"
-        android:paddingHorizontal="18dp"
-        android:inputType="textPassword"/>
-
-    <EditText
-        android:id="@+id/etPhone"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@drawable/bg_edittext"
-        android:backgroundTint="@null"
-        android:hint="Phone Number"
-        android:paddingHorizontal="18dp"
-        android:inputType="phone"/>
-
-    <Space
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:text="Register"
+                android:textColor="#3158B8"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Username"
+                android:inputType="text"
+                android:paddingHorizontal="20dp" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingHorizontal="20dp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="20dp" />
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="20dp" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Phone Number"
+                android:inputType="phone"
+                android:paddingHorizontal="20dp" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Already have an account? Login"
+                android:textColor="#3158B8"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="28dp"
+        android:backgroundTint="#3158B8"
         android:text="Register"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#3158B8"/>
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

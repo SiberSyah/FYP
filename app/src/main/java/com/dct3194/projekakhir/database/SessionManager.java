@@ -12,6 +12,7 @@ public class SessionManager {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PHONE = "phone";
+    private static final String KEY_PROFILE_IMAGE_PATH = "profileImagePath";
 
     private final SharedPreferences preferences;
 
@@ -99,6 +100,23 @@ public class SessionManager {
         return preferences.getString(
                 KEY_PHONE,
                 ""
+        );
+    }
+
+    // =========================
+    // Profile Image Path
+    // =========================
+
+    public void setProfileImagePath(String path) {
+        preferences.edit()
+                .putString(KEY_PROFILE_IMAGE_PATH, path)
+                .apply();
+    }
+
+    public String getProfileImagePath() {
+        return preferences.getString(
+                KEY_PROFILE_IMAGE_PATH,
+                null
         );
     }
 

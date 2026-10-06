@@ -21,6 +21,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
+                android:contentDescription="@null"
                 android:src="@android:drawable/ic_media_previous"
                 app:tint="#3158B8" />
 
@@ -34,10 +35,63 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
+        <!-- Profile Photo Container with Camera Overlay Badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/layoutProfilePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:background="#EAF2FF"
+                    android:padding="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person"
+                    app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnCameraOverlay"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignEnd="@id/imgProfile"
+                    android:layout_alignBottom="@id/imgProfile"
+                    android:layout_marginEnd="-2dp"
+                    android:layout_marginBottom="-2dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_camera"
+                        app:tint="#333333" />
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
@@ -60,8 +114,8 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_input_field"
-                    android:paddingHorizontal="12dp"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:paddingHorizontal="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,8 +131,8 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_input_field"
-                    android:paddingHorizontal="12dp"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:paddingHorizontal="12dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -87,7 +141,7 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="32dp"
             android:backgroundTint="#3158B8"
             android:text="Save Changes"
             android:textAllCaps="false"

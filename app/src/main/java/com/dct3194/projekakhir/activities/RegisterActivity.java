@@ -1,11 +1,20 @@
 package com.dct3194.projekakhir.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dct3194.projekakhir.R;
@@ -25,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etPhone;
 
     private Button btnRegister;
+    private TextView tvLogin;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -46,6 +56,9 @@ public class RegisterActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
 
         btnRegister = findViewById(R.id.btnRegister);
+        tvLogin = findViewById(R.id.tvLogin);
+
+        setupLoginLink();
 
         // =========================
         // Firebase
@@ -55,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // =========================
-        // Register Button
+        // Listeners
         // =========================
 
         btnRegister.setOnClickListener(v -> {
@@ -64,6 +77,41 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
+        tvLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    private void setupLoginLink() {
+        String text = "Already have an account? Login";
+        SpannableString ss = new SpannableString(text);
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+                ds.setFakeBoldText(true);
+                ds.setColor(Color.parseColor("#3158B8"));
+            }
+        };
+
+        // Apply span to "Login" (indices 25 to 30)
+        ss.setSpan(clickableSpan, 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvLogin.setText(ss);
+        tvLogin.setMovementMethod(LinkMovementMethod.getInstance());
+        tvLogin.setHighlightColor(Color.TRANSPARENT);
     }
 
     // =========================================================
