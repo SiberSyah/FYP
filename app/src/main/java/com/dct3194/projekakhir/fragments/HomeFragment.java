@@ -20,7 +20,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.dct3194.projekakhir.R;
 import com.dct3194.projekakhir.activities.MaintenanceActivity;
+import com.dct3194.projekakhir.activities.SelectAircondActivity;
 import com.dct3194.projekakhir.adapters.PromoAdapter;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +37,14 @@ public class HomeFragment extends Fragment {
     private final Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {
-            if (viewPagerPromo != null) {
-                int currentItem = viewPagerPromo.getCurrentItem();
-                int nextItem = (currentItem + 1) % 3;
-                viewPagerPromo.setCurrentItem(nextItem, true);
-                sliderHandler.postDelayed(this, 3000);
+            if (viewPagerPromo != null && viewPagerPromo.getAdapter() != null) {
+                int count = viewPagerPromo.getAdapter().getItemCount();
+                if (count > 0) {
+                    int currentItem = viewPagerPromo.getCurrentItem();
+                    int nextItem = (currentItem + 1) % count;
+                    viewPagerPromo.setCurrentItem(nextItem, true);
+                    sliderHandler.postDelayed(this, 3000);
+                }
             }
         }
     };
@@ -57,16 +63,19 @@ public class HomeFragment extends Fragment {
         View cardBuy = view.findViewById(R.id.cardBuy);
         View cardMaintenance = view.findViewById(R.id.cardMaintenance);
 
-        cardBuy.setOnClickListener(v -> getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new SelectAircondFragment())
-                .addToBackStack(null)
-                .commit());
+        if (cardBuy != null) {
+            cardBuy.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), SelectAircondActivity.class);
+                startActivity(intent);
+            });
+        }
 
-        cardMaintenance.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MaintenanceActivity.class);
-            startActivity(intent);
-        });
+        if (cardMaintenance != null) {
+            cardMaintenance.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), MaintenanceActivity.class);
+                startActivity(intent);
+            });
+        }
 
         // Show full screen promo dialog
         showPromoDialog();
@@ -90,15 +99,52 @@ public class HomeFragment extends Fragment {
         viewPagerPromo = promoDialog.findViewById(R.id.viewPagerPromo);
         ImageView btnClosePromo = promoDialog.findViewById(R.id.btnClosePromo);
 
-        List<Integer> promoImages = new ArrayList<>();
-        promoImages.add(R.drawable.ic_aircond);
-        promoImages.add(R.drawable.ic_maintenance);
-        promoImages.add(R.drawable.circle_logo);
+        List<Object> promoItems = new ArrayList<>();
+        PromoAdapter adapter = new PromoAdapter(promoItems);
+        if (viewPagerPromo != null) {
+            viewPagerPromo.setAdapter(adapter);
+        }
 
-        PromoAdapter adapter = new PromoAdapter(promoImages);
-        viewPagerPromo.setAdapter(adapter);
+        // Fetch promo images from Firebase Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("promos")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            String url = doc.getString("imageUrl");
+                            if (url == null || url.isEmpty()) {
+                                url = doc.getString("url");
+                            }
+                            if (url == null || url.isEmpty()) {
+                                url = doc.getString("image");
+                            }
+                            if (url != null && !url.isEmpty()) {
+                                promoItems.add(url);
+                            }
+                        }
+                    }
 
-        btnClosePromo.setOnClickListener(v -> promoDialog.dismiss());
+                    // Fallback if no promo image URLs found in Firestore "promos" collection
+                    if (promoItems.isEmpty()) {
+                        promoItems.add(R.drawable.yusrilogo);
+                        promoItems.add(R.drawable.ic_aircond);
+                        promoItems.add(R.drawable.ic_maintenance);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    // Fallback if network/firestore error
+                    promoItems.add(R.drawable.yusrilogo);
+                    promoItems.add(R.drawable.ic_aircond);
+                    promoItems.add(R.drawable.ic_maintenance);
+                    adapter.notifyDataSetChanged();
+                });
+
+        if (btnClosePromo != null) {
+            btnClosePromo.setOnClickListener(v -> promoDialog.dismiss());
+        }
 
         promoDialog.setOnDismissListener(dialog -> sliderHandler.removeCallbacks(sliderRunnable));
 

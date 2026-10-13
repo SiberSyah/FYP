@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dct3194.projekakhir.MainActivity;
 import com.dct3194.projekakhir.R;
+import com.dct3194.projekakhir.database.SessionManager;
 import com.dct3194.projekakhir.models.Aircond;
 
 public class AddAddressActivity extends AppCompatActivity {
@@ -372,6 +373,11 @@ public class AddAddressActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // =========================================================
+        // Auto Fill Profile Address
+        // =========================================================
+        autoFillProfileAddress();
+
         // =========================
         // Bottom Navigation
         // =========================
@@ -620,5 +626,47 @@ public class AddAddressActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void autoFillProfileAddress() {
+        SessionManager sessionManager = new SessionManager(this);
+
+        String name = sessionManager.getUsername();
+        String phone = sessionManager.getPhone();
+        String address = sessionManager.getAddress();
+        String city = sessionManager.getCity();
+        String poscode = sessionManager.getPoscode();
+        String state = sessionManager.getState();
+
+        if (etFullName != null && name != null && !name.isEmpty()) {
+            etFullName.setText(name);
+        }
+        if (etPhone != null && phone != null && !phone.isEmpty()) {
+            etPhone.setText(phone);
+        }
+        if (etAddress != null && address != null && !address.isEmpty()) {
+            etAddress.setText(address);
+        }
+        if (etCity != null && city != null && !city.isEmpty()) {
+            etCity.setText(city);
+        }
+        if (etPoscode != null && poscode != null && !poscode.isEmpty()) {
+            etPoscode.setText(poscode);
+        }
+        if (etState != null && state != null && !state.isEmpty()) {
+            etState.setText(state);
+        }
+
+        boolean isAddressComplete = address != null && !address.trim().isEmpty()
+                && city != null && !city.trim().isEmpty()
+                && poscode != null && !poscode.trim().isEmpty()
+                && state != null && !state.trim().isEmpty()
+                && name != null && !name.trim().isEmpty()
+                && phone != null && !phone.trim().isEmpty();
+
+        if (isAddressComplete && btnContinue != null) {
+            Toast.makeText(this, "Menggunakan alamat dari profil anda...", Toast.LENGTH_SHORT).show();
+            btnContinue.performClick();
+        }
     }
 }
