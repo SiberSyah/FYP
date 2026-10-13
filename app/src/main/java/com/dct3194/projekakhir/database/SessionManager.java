@@ -121,6 +121,40 @@ public class SessionManager {
     }
 
     // =========================
+    // Address Details
+    // =========================
+
+    private static final String KEY_ADDRESS = "address";
+    private static final String KEY_CITY = "city";
+    private static final String KEY_POSCODE = "poscode";
+    private static final String KEY_STATE = "state";
+
+    public void saveAddressDetails(String address, String city, String poscode, String state) {
+        preferences.edit()
+                .putString(KEY_ADDRESS, address)
+                .putString(KEY_CITY, city)
+                .putString(KEY_POSCODE, poscode)
+                .putString(KEY_STATE, state)
+                .apply();
+    }
+
+    public String getAddress() {
+        return preferences.getString(KEY_ADDRESS, "");
+    }
+
+    public String getCity() {
+        return preferences.getString(KEY_CITY, "");
+    }
+
+    public String getPoscode() {
+        return preferences.getString(KEY_POSCODE, "");
+    }
+
+    public String getState() {
+        return preferences.getString(KEY_STATE, "");
+    }
+
+    // =========================
     // Clear Session
     // =========================
 

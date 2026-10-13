@@ -35,7 +35,7 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <!-- Profile Photo Container with Camera Overlay Badge -->
+        <!-- Profile Photo Container with Pencil Overlay Badge -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,6 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:background="#EAF2FF"
-                    android:padding="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_person"
                     app:shapeAppearanceOverlay="@style/CircleImageView" />
@@ -80,7 +79,7 @@
                         android:layout_height="18dp"
                         android:layout_gravity="center"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_camera"
+                        android:src="@drawable/ic_pencil"
                         app:tint="#333333" />
                 </androidx.cardview.widget.CardView>
 

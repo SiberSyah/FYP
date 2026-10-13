@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dct3194.projekakhir.MainActivity;
 import com.dct3194.projekakhir.R;
+import com.dct3194.projekakhir.database.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
@@ -102,12 +104,48 @@ public class LoginActivity extends AppCompatActivity {
     private void loginWithEmail(String email, String password) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    Toast.makeText(
-                            this,
-                            "Login Successful",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                    openMainActivity();
+                    FirebaseUser firebaseUser = authResult.getUser();
+                    if (firebaseUser != null) {
+                        String uid = firebaseUser.getUid();
+                        db.collection("users").document(uid).get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    String username = documentSnapshot.getString("username");
+                                    String userEmail = documentSnapshot.getString("email");
+                                    String phone = documentSnapshot.getString("phone");
+
+                                    if (userEmail == null || userEmail.isEmpty()) {
+                                        userEmail = firebaseUser.getEmail();
+                                    }
+                                    if (username == null || username.isEmpty()) {
+                                        username = firebaseUser.getDisplayName();
+                                    }
+
+                                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                                    sessionManager.createLoginSession(
+                                            uid,
+                                            username != null ? username : "User",
+                                            userEmail != null ? userEmail : email,
+                                            phone != null ? phone : ""
+                                    );
+
+                                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                    openMainActivity();
+                                })
+                                .addOnFailureListener(e -> {
+                                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                                    sessionManager.createLoginSession(
+                                            uid,
+                                            "User",
+                                            firebaseUser.getEmail() != null ? firebaseUser.getEmail() : email,
+                                            ""
+                                    );
+                                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                    openMainActivity();
+                                });
+                    } else {
+                        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        openMainActivity();
+                    }
                 })
                 .addOnFailureListener(e -> {
                     btnLogin.setEnabled(true);
