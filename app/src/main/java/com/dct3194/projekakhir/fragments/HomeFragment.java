@@ -11,11 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
@@ -79,73 +74,6 @@ public class HomeFragment extends Fragment {
             cardMaintenance.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), MaintenanceActivity.class);
                 startActivity(intent);
-            });
-        }
-
-        // =========================================================
-        // BTU AIRCOND CALCULATOR
-        // =========================================================
-        EditText etRoomLength = view.findViewById(R.id.etRoomLength);
-        EditText etRoomWidth = view.findViewById(R.id.etRoomWidth);
-        Button btnCalculateBtu = view.findViewById(R.id.btnCalculateBtu);
-        View layoutBtuResult = view.findViewById(R.id.layoutBtuResult);
-
-        TextView txtRoomArea = view.findViewById(R.id.txtRoomArea);
-        TextView txtRequiredBtu = view.findViewById(R.id.txtRequiredBtu);
-        TextView txtRecommendedHp = view.findViewById(R.id.txtRecommendedHp);
-
-        if (btnCalculateBtu != null) {
-            btnCalculateBtu.setOnClickListener(v -> {
-                String lenStr = etRoomLength != null ? etRoomLength.getText().toString().trim() : "";
-                String widthStr = etRoomWidth != null ? etRoomWidth.getText().toString().trim() : "";
-
-                if (lenStr.isEmpty() || widthStr.isEmpty()) {
-                    Toast.makeText(getContext(), "Please enter room length and width", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                try {
-                    double length = Double.parseDouble(lenStr);
-                    double width = Double.parseDouble(widthStr);
-
-                    if (length <= 0 || width <= 0) {
-                        Toast.makeText(getContext(), "Length and width must be greater than 0", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    double area = length * width;
-                    double btu = area * 60; // Standard 60 BTU per sq ft
-
-                    String recommendedHp;
-                    if (btu < 9000) {
-                        recommendedHp = "1.0 HP (9,000 BTU/hr)";
-                    } else if (btu <= 12500) {
-                        recommendedHp = "1.5 HP (12,000 BTU/hr)";
-                    } else if (btu <= 18000) {
-                        recommendedHp = "2.0 HP (18,000 BTU/hr)";
-                    } else if (btu <= 24000) {
-                        recommendedHp = "2.5 HP (24,000 BTU/hr)";
-                    } else {
-                        recommendedHp = "3.0 HP or multiple units (30,000+ BTU/hr)";
-                    }
-
-                    if (txtRoomArea != null) {
-                        txtRoomArea.setText(String.format(Locale.getDefault(), "Room Area: %.1f sq ft", area));
-                    }
-                    if (txtRequiredBtu != null) {
-                        txtRequiredBtu.setText(String.format(Locale.getDefault(), "Required Capacity: ~%,.0f BTU/hr", btu));
-                    }
-                    if (txtRecommendedHp != null) {
-                        txtRecommendedHp.setText("Recommended: " + recommendedHp);
-                    }
-
-                    if (layoutBtuResult != null) {
-                        layoutBtuResult.setVisibility(View.VISIBLE);
-                    }
-
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "Invalid room dimensions entered", Toast.LENGTH_SHORT).show();
-                }
             });
         }
 
