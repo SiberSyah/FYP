@@ -48,8 +48,11 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String AI_API_KEY = "YOUR_AI_API_KEY"; // Gantikan dengan Kunci API OpenAI/Gemini jika ada
-    private static final String AI_API_URL = "https://api.openai.com/v1/chat/completions";
+    // =========================================================
+    // PASTE YOUR FREE GEMINI OR OPENAI API KEY HERE
+    // =========================================================
+    private static final String GEMINI_API_KEY = ""; // Masukkan Kunci API GeminiPercuma dari https://aistudio.google.com/
+    private static final String OPENAI_API_KEY = ""; // Atau Kunci API OpenAI
 
     private LinearLayout navProfile, navHome, navOrders;
     private ImageView iconProfile, iconHome, iconOrders;
@@ -240,14 +243,96 @@ public class MainActivity extends AppCompatActivity {
         chatAdapter.addMessage(new ChatMessage(userText, true));
         rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
 
-        // 2. Hantar Permintaan HTTP ke AI API menggunakan OkHttp
-        sendAiApiRequest(userText, chatAdapter, rvChat);
+        // 2. Hantar Permintaan HTTP ke AI API (Gemini / OpenAI)
+        if (GEMINI_API_KEY != null && !GEMINI_API_KEY.trim().isEmpty()) {
+            sendGeminiApiRequest(userText, chatAdapter, rvChat);
+        } else if (OPENAI_API_KEY != null && !OPENAI_API_KEY.trim().isEmpty()) {
+            sendOpenAiApiRequest(userText, chatAdapter, rvChat);
+        } else {
+            handleFallbackBotReply(userText, chatAdapter, rvChat);
+        }
     }
 
     // =========================================================
-    // HTTP REQUEST TO AI API USING OKHTTP
+    // HTTP REQUEST TO GEMINI AI API (GOOGLE AI STUDIO - FREE)
     // =========================================================
-    private void sendAiApiRequest(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
+    private void sendGeminiApiRequest(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GEMINI_API_KEY;
+
+            String prompt = "Anda adalah bot pembantu AI servis aircond Encik Aircond dalam Bahasa Melayu. Berikan jawapan mesra & singkat untuk soalan pengguna berikut: " + userText;
+
+            JSONObject textPart = new JSONObject();
+            textPart.put("text", prompt);
+
+            JSONArray parts = new JSONArray();
+            parts.put(textPart);
+
+            JSONObject content = new JSONObject();
+            content.put("parts", parts);
+
+            JSONArray contents = new JSONArray();
+            contents.put(content);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("contents", contents);
+
+            RequestBody body = RequestBody.create(
+                    jsonBody.toString(),
+                    MediaType.parse("application/json; charset=utf-8")
+            );
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String responseData = response.body().string();
+                        try {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray candidates = jsonResponse.getJSONArray("candidates");
+                            if (candidates.length() > 0) {
+                                JSONObject candidate = candidates.getJSONObject(0);
+                                JSONObject contentObj = candidate.getJSONObject("content");
+                                JSONArray partsArr = contentObj.getJSONArray("parts");
+                                if (partsArr.length() > 0) {
+                                    String aiReply = partsArr.getJSONObject(0).getString("text").trim();
+                                    runOnUiThread(() -> {
+                                        chatAdapter.addMessage(new ChatMessage(aiReply, false));
+                                        rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
+                                    });
+                                    return;
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            handleFallbackBotReply(userText, chatAdapter, rvChat);
+        }
+    }
+
+    // =========================================================
+    // HTTP REQUEST TO OPENAI API
+    // =========================================================
+    private void sendOpenAiApiRequest(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
         OkHttpClient client = new OkHttpClient();
 
         try {
@@ -273,8 +358,8 @@ public class MainActivity extends AppCompatActivity {
             );
 
             Request request = new Request.Builder()
-                    .url(AI_API_URL)
-                    .addHeader("Authorization", "Bearer " + AI_API_KEY)
+                    .url("https://api.openai.com/v1/chat/completions")
+                    .addHeader("Authorization", "Bearer " + OPENAI_API_KEY)
                     .addHeader("Content-Type", "application/json")
                     .post(body)
                     .build();
@@ -282,7 +367,6 @@ public class MainActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    // Jika gagal (contohnya tiada kunci API atau tiada internet), guna bot jawapan pintar sedia ada
                     runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
                 }
 
@@ -308,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
                     runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
                 }
             });
