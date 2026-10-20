@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     // =========================================================
     // PASTE YOUR FREE GEMINI OR OPENAI API KEY HERE
     // =========================================================
-    private static final String GEMINI_API_KEY = "AQ.Ab8RN6KUa2qwTqXY1LNroztouRLCduQr1oBmKy695B7OloS5-Q";
+    private static final String GEMINI_API_KEY = "AQ.Ab8RN6IH9r1FE6q7VRIiMHqrdU7BYyk-Jun_UUZMt7SyJYH6Dg";
     private static final String OPENAI_API_KEY = "";
 
     private LinearLayout navProfile, navHome, navOrders;
@@ -318,6 +318,9 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        String errBody = response.body() != null ? response.body().string() : "";
+                        android.util.Log.e("GeminiAPI", "Gemini API Error Code: " + response.code() + " Body: " + errBody);
                     }
                     runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
                 }
