@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="6dp">
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_logo"
+        android:contentDescription="@null"
+        android:padding="6dp"
+        android:src="@drawable/ic_aircond"
+        app:tint="#3158B8" />
+
+    <TextView
+        android:id="@+id/txtBotMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/bg_chat_bot"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textColor="#2D3748"
+        android:textSize="14sp" />
+
+</LinearLayout>

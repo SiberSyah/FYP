@@ -61,110 +61,75 @@
 
     </LinearLayout>
 
-    <!-- Scrollable Chat Messages List -->
-    <ScrollView
-        android:id="@+id/scrollChat"
+    <!-- Quick Suggestion Chips Header -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:background="#E2E8F0"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
-        <LinearLayout
-            android:id="@+id/layoutMessages"
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
-            <!-- Initial Welcome Bot Message -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_input_field"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:orientation="horizontal">
 
-                <TextView
+                <Button
+                    android:id="@+id/chipOption1"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selamat datang! Saya bot pembantu Encik Aircond. Ada apa-apa yang boleh saya bantu anda hari ini?"
-                    android:textColor="#2D3748"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <!-- Quick Suggestions -->
-            <LinearLayout
-                android:id="@+id/layoutQuickChoices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Pilihan Pantas:"
-                    android:textColor="#718096"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Aircond tak sejuk"
+                    android:textAllCaps="false"
+                    android:textColor="#3158B8"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    app:cornerRadius="18dp"
+                    app:strokeColor="#3158B8" />
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                <Button
+                    android:id="@+id/chipOption2"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Servis biasa"
+                    android:textAllCaps="false"
+                    android:textColor="#3158B8"
+                    android:textSize="12sp"
+                    app:cornerRadius="18dp"
+                    app:strokeColor="#3158B8" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                <Button
+                    android:id="@+id/chipOption3"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Cuci kimia"
+                    android:textAllCaps="false"
+                    android:textColor="#3158B8"
+                    android:textSize="12sp"
+                    app:cornerRadius="18dp"
+                    app:strokeColor="#3158B8" />
 
-                        <Button
-                            android:id="@+id/chipOption1"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="38dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="Aircond tak sejuk"
-                            android:textAllCaps="false"
-                            android:textColor="#3158B8"
-                            android:textSize="12sp"
-                            app:cornerRadius="19dp"
-                            app:strokeColor="#3158B8" />
-
-                        <Button
-                            android:id="@+id/chipOption2"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="38dp"
-                            android:layout_marginEnd="8dp"
-                            android:text="Servis biasa"
-                            android:textAllCaps="false"
-                            android:textColor="#3158B8"
-                            android:textSize="12sp"
-                            app:cornerRadius="19dp"
-                            app:strokeColor="#3158B8" />
-
-                        <Button
-                            android:id="@+id/chipOption3"
-                            style="?attr/materialButtonOutlinedStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="38dp"
-                            android:text="Cuci kimia"
-                            android:textAllCaps="false"
-                            android:textColor="#3158B8"
-                            android:textSize="12sp"
-                            app:cornerRadius="19dp"
-                            app:strokeColor="#3158B8" />
-
-                    </LinearLayout>
-                </HorizontalScrollView>
             </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
+    <!-- RecyclerView for Chat Messages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingVertical="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <!-- Bottom Input Bar -->
     <LinearLayout

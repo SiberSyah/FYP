@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,18 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.dct3194.projekakhir.adapters.ChatAdapter;
 import com.dct3194.projekakhir.fragments.HomeFragment;
 import com.dct3194.projekakhir.fragments.OrdersFragment;
 import com.dct3194.projekakhir.fragments.ProfileFragment;
 import com.dct3194.projekakhir.fragments.SelectDateTimeFragment;
+import com.dct3194.projekakhir.models.ChatMessage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // =========================================================
-    // SHOW CHAT BOT DIALOG
+    // SHOW CHAT BOT DIALOG WITH RECYCLERVIEW & CUSTOM ADAPTER
     // =========================================================
     private void showChatBotDialog() {
         Dialog chatDialog = new Dialog(this, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
@@ -152,14 +155,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ImageView btnCloseChat = chatDialog.findViewById(R.id.btnCloseChat);
-        LinearLayout layoutMessages = chatDialog.findViewById(R.id.layoutMessages);
-        ScrollView scrollChat = chatDialog.findViewById(R.id.scrollChat);
+        RecyclerView rvChat = chatDialog.findViewById(R.id.rvChat);
         EditText etChatMessage = chatDialog.findViewById(R.id.etChatMessage);
         ImageView btnSendChat = chatDialog.findViewById(R.id.btnSendChat);
 
         Button chipOption1 = chatDialog.findViewById(R.id.chipOption1);
         Button chipOption2 = chatDialog.findViewById(R.id.chipOption2);
         Button chipOption3 = chatDialog.findViewById(R.id.chipOption3);
+
+        List<ChatMessage> messageList = new ArrayList<>();
+        // Add initial bot welcome message
+        messageList.add(new ChatMessage("Selamat datang! Saya bot pembantu Encik Aircond. Ada apa-apa yang boleh saya bantu anda hari ini?", false));
+
+        ChatAdapter chatAdapter = new ChatAdapter(messageList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+
+        if (rvChat != null) {
+            rvChat.setLayoutManager(layoutManager);
+            rvChat.setAdapter(chatAdapter);
+        }
 
         if (btnCloseChat != null) {
             btnCloseChat.setOnClickListener(v -> chatDialog.dismiss());
@@ -170,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             String text = etChatMessage.getText().toString().trim();
             if (text.isEmpty()) return;
 
-            processUserMessage(text, layoutMessages, scrollChat);
+            processUserMessage(text, chatAdapter, rvChat);
             etChatMessage.setText("");
         };
 
@@ -189,23 +204,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (chipOption1 != null) {
-            chipOption1.setOnClickListener(v -> processUserMessage("Aircond tak sejuk", layoutMessages, scrollChat));
+            chipOption1.setOnClickListener(v -> processUserMessage("Aircond tak sejuk", chatAdapter, rvChat));
         }
         if (chipOption2 != null) {
-            chipOption2.setOnClickListener(v -> processUserMessage("Servis biasa", layoutMessages, scrollChat));
+            chipOption2.setOnClickListener(v -> processUserMessage("Servis biasa", chatAdapter, rvChat));
         }
         if (chipOption3 != null) {
-            chipOption3.setOnClickListener(v -> processUserMessage("Cuci kimia", layoutMessages, scrollChat));
+            chipOption3.setOnClickListener(v -> processUserMessage("Cuci kimia", chatAdapter, rvChat));
         }
 
         chatDialog.show();
     }
 
-    private void processUserMessage(String userText, LinearLayout layoutMessages, ScrollView scrollChat) {
-        if (layoutMessages == null || scrollChat == null) return;
+    private void processUserMessage(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
+        if (chatAdapter == null || rvChat == null) return;
 
-        // Add User Bubble
-        addMessageBubble(layoutMessages, scrollChat, userText, true);
+        // Add User ChatMessage (Right Side Bubble)
+        chatAdapter.addMessage(new ChatMessage(userText, true));
+        rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
 
         // Determine Bot Reply
         String lower = userText.toLowerCase();
@@ -223,43 +239,11 @@ public class MainActivity extends AppCompatActivity {
             botReply = "Terima kasih atas mesej anda! Pasukan Encik Aircond sedia membantu. Sila pilih perkhidmatan di skrin utama atau beritahu kami jika anda ingin membuat tempahan.";
         }
 
-        // Delayed Bot Response
+        // Delayed Bot Response (Left Side Bubble)
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            addMessageBubble(layoutMessages, scrollChat, botReply, false);
-        }, 600);
-    }
-
-    private void addMessageBubble(LinearLayout container, ScrollView scroll, String text, boolean isUser) {
-        LinearLayout row = new LinearLayout(this);
-        row.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.topMargin = 12;
-        params.bottomMargin = 12;
-
-        if (isUser) {
-            params.gravity = Gravity.END;
-            row.setBackgroundResource(R.drawable.button_blue);
-        } else {
-            params.gravity = Gravity.START;
-            row.setBackgroundResource(R.drawable.bg_input_field);
-        }
-
-        row.setLayoutParams(params);
-        row.setPadding(32, 24, 32, 24);
-
-        TextView tvText = new TextView(this);
-        tvText.setText(text);
-        tvText.setTextSize(14f);
-        tvText.setTextColor(isUser ? Color.WHITE : Color.parseColor("#2D3748"));
-
-        row.addView(tvText);
-        container.addView(row);
-
-        scroll.post(() -> scroll.fullScroll(View.FOCUS_DOWN));
+            chatAdapter.addMessage(new ChatMessage(botReply, false));
+            rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
+        }, 500);
     }
 
     // ==========================
