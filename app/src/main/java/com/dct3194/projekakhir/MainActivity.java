@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     // =========================================================
     // PASTE YOUR FREE GEMINI OR OPENAI API KEY HERE
     // =========================================================
-    private static final String GEMINI_API_KEY = ""; // Masukkan Kunci API GeminiPercuma dari https://aistudio.google.com/
-    private static final String OPENAI_API_KEY = ""; // Atau Kunci API OpenAI
+    private static final String GEMINI_API_KEY = "AQ.Ab8RN6KUa2qwTqXY1LNroztouRLCduQr1oBmKy695B7OloS5-Q";
+    private static final String OPENAI_API_KEY = "";
 
     private LinearLayout navProfile, navHome, navOrders;
     private ImageView iconProfile, iconHome, iconOrders;
