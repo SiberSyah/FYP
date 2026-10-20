@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,10 +30,26 @@ import com.dct3194.projekakhir.fragments.SelectDateTimeFragment;
 import com.dct3194.projekakhir.models.ChatMessage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final String AI_API_KEY = "YOUR_AI_API_KEY"; // Gantikan dengan Kunci API OpenAI/Gemini jika ada
+    private static final String AI_API_URL = "https://api.openai.com/v1/chat/completions";
 
     private LinearLayout navProfile, navHome, navOrders;
     private ImageView iconProfile, iconHome, iconOrders;
@@ -219,11 +236,90 @@ public class MainActivity extends AppCompatActivity {
     private void processUserMessage(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
         if (chatAdapter == null || rvChat == null) return;
 
-        // Add User ChatMessage (Right Side Bubble)
+        // 1. Tambah Gelembung Mesej Pengguna ke RecyclerView
         chatAdapter.addMessage(new ChatMessage(userText, true));
         rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
 
-        // Determine Bot Reply
+        // 2. Hantar Permintaan HTTP ke AI API menggunakan OkHttp
+        sendAiApiRequest(userText, chatAdapter, rvChat);
+    }
+
+    // =========================================================
+    // HTTP REQUEST TO AI API USING OKHTTP
+    // =========================================================
+    private void sendAiApiRequest(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
+        OkHttpClient client = new OkHttpClient();
+
+        try {
+            JSONObject systemMsg = new JSONObject();
+            systemMsg.put("role", "system");
+            systemMsg.put("content", "Anda adalah pembantu AI servis aircond Encik Aircond yang mesra dan membantu dalam Bahasa Melayu.");
+
+            JSONObject userMsg = new JSONObject();
+            userMsg.put("role", "user");
+            userMsg.put("content", userText);
+
+            JSONArray messages = new JSONArray();
+            messages.put(systemMsg);
+            messages.put(userMsg);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("model", "gpt-3.5-turbo");
+            jsonBody.put("messages", messages);
+
+            RequestBody body = RequestBody.create(
+                    jsonBody.toString(),
+                    MediaType.parse("application/json; charset=utf-8")
+            );
+
+            Request request = new Request.Builder()
+                    .url(AI_API_URL)
+                    .addHeader("Authorization", "Bearer " + AI_API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    // Jika gagal (contohnya tiada kunci API atau tiada internet), guna bot jawapan pintar sedia ada
+                    runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String responseData = response.body().string();
+                        try {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray choices = jsonResponse.getJSONArray("choices");
+                            if (choices.length() > 0) {
+                                JSONObject choice = choices.getJSONObject(0);
+                                JSONObject message = choice.getJSONObject("message");
+                                String aiReply = message.getString("content").trim();
+
+                                runOnUiThread(() -> {
+                                    chatAdapter.addMessage(new ChatMessage(aiReply, false));
+                                    rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
+                                });
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    runOnUiThread(() -> handleFallbackBotReply(userText, chatAdapter, rvChat));
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            handleFallbackBotReply(userText, chatAdapter, rvChat);
+        }
+    }
+
+    private void handleFallbackBotReply(String userText, ChatAdapter chatAdapter, RecyclerView rvChat) {
         String lower = userText.toLowerCase();
         String botReply;
 
@@ -239,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
             botReply = "Terima kasih atas mesej anda! Pasukan Encik Aircond sedia membantu. Sila pilih perkhidmatan di skrin utama atau beritahu kami jika anda ingin membuat tempahan.";
         }
 
-        // Delayed Bot Response (Left Side Bubble)
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             chatAdapter.addMessage(new ChatMessage(botReply, false));
             rvChat.smoothScrollToPosition(chatAdapter.getItemCount() - 1);
