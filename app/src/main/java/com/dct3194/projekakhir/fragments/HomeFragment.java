@@ -11,7 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
@@ -74,6 +81,103 @@ public class HomeFragment extends Fragment {
             cardMaintenance.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), MaintenanceActivity.class);
                 startActivity(intent);
+            });
+        }
+
+        // =========================================================
+        // BTU AIRCOND CALCULATOR
+        // =========================================================
+        EditText etRoomLength = view.findViewById(R.id.etRoomLength);
+        EditText etRoomWidth = view.findViewById(R.id.etRoomWidth);
+        Spinner spinnerRoomType = view.findViewById(R.id.spinnerRoomType);
+        Button btnCalculateBtu = view.findViewById(R.id.btnCalculateBtu);
+        View layoutBtuResult = view.findViewById(R.id.layoutBtuResult);
+
+        TextView txtRoomArea = view.findViewById(R.id.txtRoomArea);
+        TextView txtRequiredBtu = view.findViewById(R.id.txtRequiredBtu);
+        TextView txtRecommendedHp = view.findViewById(R.id.txtRecommendedHp);
+
+        // Populate Room Type Dropdown Spinner
+        if (spinnerRoomType != null && getContext() != null) {
+            String[] roomTypes = new String[]{
+                    "Standard Room (Bilik Biasa)",
+                    "Sunlight / Top Floor (Kena Matahari / Tingkat Atas)",
+                    "Office / Living Room (Ruang Tamu / Pejabat)"
+            };
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
+                    getContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    roomTypes
+            );
+            spinnerRoomType.setAdapter(spinnerAdapter);
+        }
+
+        if (btnCalculateBtu != null) {
+            btnCalculateBtu.setOnClickListener(v -> {
+                String lenStr = etRoomLength != null ? etRoomLength.getText().toString().trim() : "";
+                String widthStr = etRoomWidth != null ? etRoomWidth.getText().toString().trim() : "";
+
+                if (lenStr.isEmpty() || widthStr.isEmpty()) {
+                    Toast.makeText(getContext(), "Please enter room length and width", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    double length = Double.parseDouble(lenStr);
+                    double width = Double.parseDouble(widthStr);
+
+                    if (length <= 0 || width <= 0) {
+                        Toast.makeText(getContext(), "Length and width must be greater than 0", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    double area = length * width;
+
+                    // Select multiplier factor based on environment
+                    int selectedPos = spinnerRoomType != null ? spinnerRoomType.getSelectedItemPosition() : 0;
+                    double btuFactor = 60.0;
+                    String roomTypeLabel = "Standard";
+
+                    if (selectedPos == 1) {
+                        btuFactor = 70.0; // Sunlight / Top Floor
+                        roomTypeLabel = "Sunlight Exposure";
+                    } else if (selectedPos == 2) {
+                        btuFactor = 80.0; // Living Room / High Traffic Office
+                        roomTypeLabel = "Office / Living Room";
+                    }
+
+                    double btu = area * btuFactor;
+
+                    String recommendedHp;
+                    if (btu < 9000) {
+                        recommendedHp = "1.0 HP (9,000 BTU/hr)";
+                    } else if (btu <= 12500) {
+                        recommendedHp = "1.5 HP (12,000 BTU/hr)";
+                    } else if (btu <= 18000) {
+                        recommendedHp = "2.0 HP (18,000 BTU/hr)";
+                    } else if (btu <= 24000) {
+                        recommendedHp = "2.5 HP (24,000 BTU/hr)";
+                    } else {
+                        recommendedHp = "3.0 HP or multiple units (30,000+ BTU/hr)";
+                    }
+
+                    if (txtRoomArea != null) {
+                        txtRoomArea.setText(String.format(Locale.getDefault(), "Room Area: %.1f sq ft (%s)", area, roomTypeLabel));
+                    }
+                    if (txtRequiredBtu != null) {
+                        txtRequiredBtu.setText(String.format(Locale.getDefault(), "Required Capacity: ~%,.0f BTU/hr", btu));
+                    }
+                    if (txtRecommendedHp != null) {
+                        txtRecommendedHp.setText("Recommended: " + recommendedHp);
+                    }
+
+                    if (layoutBtuResult != null) {
+                        layoutBtuResult.setVisibility(View.VISIBLE);
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Invalid room dimensions entered", Toast.LENGTH_SHORT).show();
+                }
             });
         }
 

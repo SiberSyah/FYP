@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Encik Aircond Assistant"
+                android:text="Pakar Pengira BTU Aircond"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Online • Bot Servis Aircond"
+                android:text="Online • Pembantu BTU &amp; HP Aircond"
                 android:textColor="#D0E0FF"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Aircond tak sejuk"
+                    android:text="Bilik 12 x 15 kaki"
                     android:textAllCaps="false"
                     android:textColor="#3158B8"
                     android:textSize="12sp"
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Servis biasa"
+                    android:text="Bilik 10 x 10 kaki"
                     android:textAllCaps="false"
                     android:textColor="#3158B8"
                     android:textSize="12sp"
@@ -110,7 +110,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
-                    android:text="Cuci kimia"
+                    android:text="Panduan HP Aircond"
                     android:textAllCaps="false"
                     android:textColor="#3158B8"
                     android:textSize="12sp"
@@ -148,7 +148,7 @@
             android:layout_height="44dp"
             android:layout_weight="1"
             android:background="@drawable/bg_input_grey"
-            android:hint="Taip mesej anda di sini..."
+            android:hint="Masukkan ukuran bilik (Panjang x Lebar)..."
             android:imeOptions="actionSend"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLines="3"
