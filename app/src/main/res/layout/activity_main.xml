@@ -16,6 +16,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Persistent Floating Action Button for In-App Chatbot (Appears on ALL pages) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Pembantu Maya Chatbot"
+        android:src="@drawable/ic_chat"
+        app:backgroundTint="#3158B8"
+        app:elevation="25dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="#FFFFFF" />
+
     <!-- Floating Bottom Navigation -->
     <LinearLayout
         android:id="@+id/bottomBar"

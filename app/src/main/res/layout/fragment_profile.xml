@@ -1,573 +1,755 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
-    android:fillViewport="true">
+    android:background="#F8FAFC">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <!-- Curved Header Section -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="210dp">
-
-            <!-- Curved Header Background with Dip Curve -->
-            <ImageView
-                android:id="@+id/bgWave"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:contentDescription="@null"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_profile_header_wave" />
-
-            <!-- Profile Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="32dp"
-                android:text="My Profile"
-                android:textColor="#3158B8"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <!-- Profile Photo Container -->
-            <RelativeLayout
-                android:id="@+id/layoutProfilePhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="95dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imgProfile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="#BEE3F8"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_person"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
-                    app:strokeColor="#FFFFFF"
-                    app:strokeWidth="3dp" />
-
-                <!-- Pencil Badge Overlay -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnCameraOverlay"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:layout_alignEnd="@id/imgProfile"
-                    android:layout_alignBottom="@id/imgProfile"
-                    android:layout_marginEnd="-2dp"
-                    android:layout_marginBottom="-2dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="17dp"
-                    app:cardElevation="4dp">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_pencil"
-                        app:tint="#333333" />
-                </androidx.cardview.widget.CardView>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-        <!-- Main Content Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="28dp">
+            android:orientation="vertical">
 
-            <!-- ============================================ -->
-            <!-- 1. VIEW MODE (Displaying User Info) -->
-            <!-- ============================================ -->
-            <LinearLayout
-                android:id="@+id/layoutViewMode"
+            <!-- Header Section with Curved Wave Background -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="wrap_content">
 
-                <!-- Name & Email Header -->
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Guest User"
-                    android:textColor="#1A202C"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/bgWave"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_profile_header_wave" />
 
-                <TextView
-                    android:id="@+id/txtEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:text="guest@email.com"
-                    android:textColor="#718096"
-                    android:textSize="13sp" />
-
-                <!-- Details Card with Icons -->
-                <androidx.cardview.widget.CardView
+                <!-- Top Bar Action Icons -->
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="3dp">
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/btnNotificationHeader"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentStart="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:contentDescription="@null"
+                        android:focusable="true"
+                        android:src="@drawable/ic_notification_bell"
+                        app:tint="#1A202C" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <!-- Name Item -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/btnHistoryHeader"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@null"
+                            android:focusable="true"
+                            android:src="@drawable/ic_history"
+                            app:tint="#1A202C" />
 
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_person"
-                                app:tint="#1A202C" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Name"
-                                    android:textColor="#1A202C"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtViewName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Guest User"
-                                    android:textColor="#4A5568"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="12dp"
-                            android:background="#EDF2F7" />
-
-                        <!-- Phone Item -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_phone"
-                                app:tint="#1A202C" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Phone no."
-                                    android:textColor="#1A202C"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtViewPhone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="-"
-                                    android:textColor="#4A5568"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="12dp"
-                            android:background="#EDF2F7" />
-
-                        <!-- Address Item -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_address"
-                                app:tint="#1A202C" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Address"
-                                    android:textColor="#1A202C"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtViewAddress"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="-"
-                                    android:textColor="#4A5568"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginVertical="12dp"
-                            android:background="#EDF2F7" />
-
-                        <!-- Email Item -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_email"
-                                app:tint="#1A202C" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="16dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="E-Mail"
-                                    android:textColor="#1A202C"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/txtViewEmail"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="guest@email.com"
-                                    android:textColor="#4A5568"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
+                        <ImageView
+                            android:id="@+id/btnMenuHeader"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@null"
+                            android:focusable="true"
+                            android:src="@drawable/ic_more_vert"
+                            app:tint="#1A202C" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </RelativeLayout>
 
-                <!-- Edit Profile Button -->
-                <Button
-                    android:id="@+id/btnTriggerEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="#3158B8"
-                    android:text="Edit Profile Information"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <!-- Logout Button -->
-                <Button
-                    android:id="@+id/btnLogout"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="12dp"
-                    android:backgroundTint="#FF5252"
-                    android:text="Logout"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <!-- ============================================ -->
-            <!-- 2. EDIT MODE (Matching User's Screenshot) -->
-            <!-- ============================================ -->
-            <LinearLayout
-                android:id="@+id/layoutEditMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                <!-- Profile Photo Container -->
+                <RelativeLayout
+                    android:id="@+id/layoutProfilePhoto"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="3dp">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="75dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgProfile"
+                        android:layout_width="104dp"
+                        android:layout_height="104dp"
+                        android:background="#BEE3F8"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_person"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="4dp" />
 
-                        <!-- Full Name -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Full Name"
-                            android:textColor="#3158B8"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                    <!-- Pencil Badge Overlay -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnCameraOverlay"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignEnd="@id/imgProfile"
+                        android:layout_alignBottom="@id/imgProfile"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="17dp"
+                        app:cardElevation="4dp">
 
-                        <EditText
-                            android:id="@+id/etEditName"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/bg_input_grey"
-                            android:hint="Enter your full name"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName"
-                            android:paddingHorizontal="16dp"
-                            android:textColor="#2D3748"
-                            android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_pencil"
+                            app:tint="#1A202C" />
+                    </androidx.cardview.widget.CardView>
 
-                        <!-- Phone Number -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Phone Number"
-                            android:textColor="#3158B8"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                </RelativeLayout>
 
-                        <EditText
-                            android:id="@+id/etEditPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/bg_input_grey"
-                            android:hint="Enter your phone number"
-                            android:imeOptions="actionNext"
-                            android:inputType="phone"
-                            android:paddingHorizontal="16dp"
-                            android:textColor="#2D3748"
-                            android:textSize="15sp" />
-
-                        <!-- Address -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Address"
-                            android:textColor="#3158B8"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/etEditAddress"
-                            android:layout_width="match_parent"
-                            android:layout_height="72dp"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/bg_input_grey"
-                            android:gravity="top"
-                            android:hint="House No, Street, Area"
-                            android:imeOptions="actionNext"
-                            android:inputType="textMultiLine"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="12dp"
-                            android:textColor="#2D3748"
-                            android:textSize="15sp" />
-
-                        <!-- City & Poscode Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:orientation="horizontal">
-
-                            <!-- City -->
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="6dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="City"
-                                    android:textColor="#3158B8"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-                                    android:id="@+id/etEditCity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="48dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/bg_input_grey"
-                                    android:hint="Enter City"
-                                    android:imeOptions="actionNext"
-                                    android:inputType="text"
-                                    android:paddingHorizontal="16dp"
-                                    android:textColor="#2D3748"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-
-                            <!-- Poscode -->
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Poscode"
-                                    android:textColor="#3158B8"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <EditText
-                                    android:id="@+id/etEditPoscode"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="48dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/bg_input_grey"
-                                    android:hint="Enter Poscode"
-                                    android:imeOptions="actionNext"
-                                    android:inputType="number"
-                                    android:paddingHorizontal="16dp"
-                                    android:textColor="#2D3748"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <!-- State -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="State"
-                            android:textColor="#3158B8"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/etEditState"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="6dp"
-                            android:background="@drawable/bg_input_grey"
-                            android:hint="Enter State"
-                            android:imeOptions="actionDone"
-                            android:inputType="text"
-                            android:paddingHorizontal="16dp"
-                            android:textColor="#2D3748"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Action Buttons: Save & Cancel -->
+                <!-- User Name & Subtitle Info (Email & Phone) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:layout_below="@id/layoutProfilePhoto"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp">
 
-                    <Button
-                        android:id="@+id/btnCancelEdit"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="Cancel"
-                        android:textAllCaps="false"
-                        android:textColor="#718096"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/btnSaveProfile"
-                        android:layout_width="0dp"
-                        android:layout_height="52dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="#3158B8"
-                        android:text="Save &amp; Enter"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
+                    <TextView
+                        android:id="@+id/txtName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guest User"
+                        android:textColor="#1A202C"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtSubInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="guest@email.com | -"
+                        android:textColor="#718096"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <!-- Main Content Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="90dp">
+
+                <!-- ============================================ -->
+                <!-- 1. VIEW MODE (Grouped CardView List) -->
+                <!-- ============================================ -->
+                <LinearLayout
+                    android:id="@+id/layoutViewMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- KUMPULAN 1: Profile, Notifications, Language -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- Edit profile information -->
+                            <LinearLayout
+                                android:id="@+id/btnTriggerEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_person"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Edit profile information"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#EDF2F7" />
+
+                            <!-- Notifications -->
+                            <LinearLayout
+                                android:id="@+id/btnNotifications"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_notification_bell"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Notifications"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="ON"
+                                    android:textColor="#FF9800"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- KUMPULAN 2: Security, Theme -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- Security -->
+                            <LinearLayout
+                                android:id="@+id/btnSecurity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_lock"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Security"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#EDF2F7" />
+
+                            <!-- Theme -->
+                            <LinearLayout
+                                android:id="@+id/btnTheme"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_pencil"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Theme"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Light mode"
+                                    android:textColor="#FF9800"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- KUMPULAN 3: Help & Support, Contact us, Privacy policy -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- Help & Support (Open Chatbot) -->
+                            <LinearLayout
+                                android:id="@+id/btnOpenChatbotMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_chat"
+                                    app:tint="#3158B8" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Help &amp; Support (Chatbot ❄️)"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#EDF2F7" />
+
+                            <!-- Contact us -->
+                            <LinearLayout
+                                android:id="@+id/btnContactUs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_phone"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Contact us"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="#EDF2F7" />
+
+                            <!-- Privacy policy -->
+                            <LinearLayout
+                                android:id="@+id/btnPrivacyPolicy"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="8dp">
+
+                                <ImageView
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_lock"
+                                    app:tint="#1A202C" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="14dp"
+                                    android:layout_weight="1"
+                                    android:text="Privacy policy"
+                                    android:textColor="#1A202C"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- LOGOUT BUTTON CARD -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <Button
+                                android:id="@+id/btnLogout"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:backgroundTint="#FF4D4D"
+                                android:text="Logout / Log Keluar"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="12dp" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <!-- ============================================ -->
+                <!-- 2. EDIT MODE (Form Fields & Save Actions) -->
+                <!-- ============================================ -->
+                <LinearLayout
+                    android:id="@+id/layoutEditMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="#FFFFFF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Edit Profile Information"
+                                android:textColor="#3158B8"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <!-- Full Name -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Full Name"
+                                android:textColor="#1A202C"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/etEditName"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_input_grey"
+                                android:hint="Enter full name"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPersonName"
+                                android:paddingHorizontal="16dp"
+                                android:textColor="#2D3748"
+                                android:textSize="15sp" />
+
+                            <!-- Phone Number -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Phone Number"
+                                android:textColor="#1A202C"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/etEditPhone"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_input_grey"
+                                android:hint="Enter phone number"
+                                android:imeOptions="actionNext"
+                                android:inputType="phone"
+                                android:paddingHorizontal="16dp"
+                                android:textColor="#2D3748"
+                                android:textSize="15sp" />
+
+                            <!-- Address -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Address"
+                                android:textColor="#1A202C"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/etEditAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="72dp"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_input_grey"
+                                android:gravity="top"
+                                android:hint="House No, Street, Area"
+                                android:imeOptions="actionNext"
+                                android:inputType="textMultiLine"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="12dp"
+                                android:textColor="#2D3748"
+                                android:textSize="15sp" />
+
+                            <!-- City & Poscode Row -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal">
+
+                                <!-- City -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="City"
+                                        android:textColor="#1A202C"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:id="@+id/etEditCity"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:layout_marginTop="6dp"
+                                        android:background="@drawable/bg_input_grey"
+                                        android:hint="City"
+                                        android:imeOptions="actionNext"
+                                        android:inputType="text"
+                                        android:paddingHorizontal="16dp"
+                                        android:textColor="#2D3748"
+                                        android:textSize="15sp" />
+                                </LinearLayout>
+
+                                <!-- Poscode -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Poscode"
+                                        android:textColor="#1A202C"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:id="@+id/etEditPoscode"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:layout_marginTop="6dp"
+                                        android:background="@drawable/bg_input_grey"
+                                        android:hint="Poscode"
+                                        android:imeOptions="actionNext"
+                                        android:inputType="number"
+                                        android:paddingHorizontal="16dp"
+                                        android:textColor="#2D3748"
+                                        android:textSize="15sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!-- State -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="State"
+                                android:textColor="#1A202C"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/etEditState"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_input_grey"
+                                android:hint="State"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:paddingHorizontal="16dp"
+                                android:textColor="#2D3748"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Action Buttons: Save & Cancel -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnCancelEdit"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="Cancel"
+                            android:textAllCaps="false"
+                            android:textColor="#718096"
+                            android:textSize="15sp"
+                            app:cornerRadius="12dp"
+                            app:strokeColor="#CBD5E0" />
+
+                        <Button
+                            android:id="@+id/btnSaveProfile"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#3158B8"
+                            android:text="Save Changes"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>
